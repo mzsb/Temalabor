@@ -4,8 +4,9 @@ using System.Text;
 
 namespace Flatbuilder.DTO
 {
-    //List of places you can rent to
-    public enum Locations
+    //generalization of all the rooms
+    public class Room
     {
+        public double price;
     }
 }
