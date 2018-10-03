@@ -6,10 +6,17 @@ namespace Flatbuilder.DTO
     //Already made orders
     public class Orders
     {
-        public Costumer costumer;
-        public DateTime startDate;
-        public DateTime endDate;
-        public String location;
-        public ICollection<OrderItem> rooms;
+        public int Id { get; set; }
+        public int CostumerId { get; set; }
+        public Costumer Costumer { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Location { get; set; }
+        public ICollection<OrderItem> Rooms { get; set; }
+
+        public Orders()
+        {
+            Rooms = new List<OrderItem>();
+        }
     }
 }
