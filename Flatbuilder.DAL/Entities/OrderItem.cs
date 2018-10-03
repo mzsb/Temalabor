@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Flatbuilder.DTO
+namespace Flatbuilder.DTO.Entities
 {
     public class OrderItem
     {

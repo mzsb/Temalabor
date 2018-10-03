@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Flatbuilder.DTO
 {
     //Already made orders
-    public class Orders
+    public class Order
     {
         public int Id { get; set; }
         public int CostumerId { get; set; }
@@ -12,11 +12,6 @@ namespace Flatbuilder.DTO
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Location { get; set; }
-        public ICollection<OrderItem> Rooms { get; set; }
-
-        public Orders()
-        {
-            Rooms = new List<OrderItem>();
-        }
+        public ICollection<Room> Rooms { get; set; }
     }
 }

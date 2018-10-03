@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Flatbuilder.DTO
+namespace Flatbuilder.DAL.Entities
 {
     public class Bedroom : Room
     {

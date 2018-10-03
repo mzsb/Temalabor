@@ -152,9 +152,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Flatbuilder.MobilClient\Flatbuilder.MobilClient.csproj">
-      <Project>{6C3CC363-A74F-4FB6-B554-181A3C8EB2DC}</Project>
-      <Name>Flatbuilder.MobilClient</Name>
+    <ProjectReference Include="..\Flatbuilder.MobilClient\Fb.MC.csproj">
+      <Project>{343C4FC6-3F00-4C6A-A44C-1E43D7709053}</Project>
+      <Name>Fb.MC</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

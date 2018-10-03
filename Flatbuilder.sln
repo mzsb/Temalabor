@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flatbuilder.WebAPI", "Flatbuilder.WebAPI\Flatbuilder.WebAPI.csproj", "{6A921557-EF2C-4A87-8655-0BD6C5E73625}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flatbuilder.WebAPI", "Flatbuilder.WebAPI\Flatbuilder.WebAPI.csproj", "{6A921557-EF2C-4A87-8655-0BD6C5E73625}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flatbuilder.DAL", "Flatbuilder.DAL\Flatbuilder.DAL.csproj", "{6416CAAC-847E-441C-AB34-19F2DA293C3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flatbuilder.DAL", "Flatbuilder.DAL\Flatbuilder.DAL.csproj", "{6416CAAC-847E-441C-AB34-19F2DA293C3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flatbuilder.DTO", "Flatbuilder.DTO\Flatbuilder.DTO.csproj", "{5BB1B6CB-EED7-4091-A38D-C7BB2F8F99BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flatbuilder.DTO", "Flatbuilder.DTO\Flatbuilder.DTO.csproj", "{5BB1B6CB-EED7-4091-A38D-C7BB2F8F99BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flatbuilder.MobilClient.Android", "Flatbuilder.MobilClient\Flatbuilder.MobilClient.Android\Flatbuilder.MobilClient.Android.csproj", "{5A0FB587-D8BC-4244-AE15-CBA14AA252FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fb.MC.A", "Flatbuilder.MobilClient\Flatbuilder.MobilClient.Android\Fb.MC.A.csproj", "{5A0FB587-D8BC-4244-AE15-CBA14AA252FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flatbuilder.MobilClient.iOS", "Flatbuilder.MobilClient\Flatbuilder.MobilClient.iOS\Flatbuilder.MobilClient.iOS.csproj", "{C5A449E0-EDA3-4438-B4A8-17E4DCA1A379}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fb.MC.iOS", "Flatbuilder.MobilClient\Flatbuilder.MobilClient.iOS\Fb.MC.iOS.csproj", "{C5A449E0-EDA3-4438-B4A8-17E4DCA1A379}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flatbuilder.MobilClient", "Flatbuilder.MobilClient\Flatbuilder.MobilClient\Flatbuilder.MobilClient.csproj", "{343C4FC6-3F00-4C6A-A44C-1E43D7709053}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fb.MC", "Flatbuilder.MobilClient\Flatbuilder.MobilClient\Fb.MC.csproj", "{343C4FC6-3F00-4C6A-A44C-1E43D7709053}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
