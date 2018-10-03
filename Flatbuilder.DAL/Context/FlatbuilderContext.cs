@@ -46,20 +46,16 @@ namespace Flatbuilder.DAL.Context
             modelBuilder.Entity<Order>().HasKey(o => o.Id);
 
             //configuring one-to-one relations
-            modelBuilder.Entity<Order>()
-                .HasOne<Costumer>(o => o.Costumer)
-                .WithOne(c => c.Order)
-                .HasForeignKey<Costumer>(c => c.OrderId);
+            modelBuilder.Entity<Costumer>()
+                .HasOne<Order>(c => c.Order)
+                .WithOne(o => o.Costumer)
+                .HasForeignKey<Order>(o => o.CostumerId);
 
             //configuring one-to-many relations
-            modelBuilder.Entity<Room>()
-                .HasOne<Order>(r => r.Order)
-                .WithMany(ro => ro.Rooms)
-                .HasForeignKey(r => r.OrderId);
-            
             modelBuilder.Entity<Order>()
-                .HasMany<Room>(o => o.Rooms)
-                .WithOne();            
+                .HasMany(o => o.Rooms)
+                .WithOne(r => r.Order)
+                .HasForeignKey(r => r.OrderId);
         }        
     }
 }
