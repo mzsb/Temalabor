@@ -7,7 +7,12 @@ using System.Text;
 
 namespace Flatbuilder.DAL.Context
 {
-    class FlatbuilderContext : DbContext
+    //tools-->nuget package manager-->package manager console
+
+    //add-migration <nev> ha valamit valtoztatni kell a strukturan
+    //update-database hogy a jelenlegit lehuzzatok a sajat gepetekre
+    //View-->Sql Server Object Explorer ebben kell lenni valahol ha sikerult az update
+    public class FlatbuilderContext : DbContext
     {
         
         public DbSet<Room> Rooms { get; set; }
@@ -40,7 +45,11 @@ namespace Flatbuilder.DAL.Context
             modelBuilder.Entity<Costumer>().HasKey(c => c.Id);
             modelBuilder.Entity<Order>().HasKey(o => o.Id);
 
-            //configuring one-to-one relations doesnt need to be configured
+            //configuring one-to-one relations
+            modelBuilder.Entity<Order>()
+                .HasOne<Costumer>(o => o.Costumer)
+                .WithOne(c => c.Order)
+                .HasForeignKey<Costumer>(c => c.OrderId);
 
             //configuring one-to-many relations
             modelBuilder.Entity<Room>()
