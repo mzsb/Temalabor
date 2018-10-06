@@ -9,7 +9,18 @@ namespace Flatbuilder.DAL.Entities
     {
         public int Id { get; set; }       
         public double Price { get; set; }
-        public int OrderId { get; set; }
-        public Order Order { get; set; } = null;
+        public string DiscriminatorValue
+        {
+            get
+            {
+                return this.GetType().Name;
+            }
+        }
+        public ICollection<OrderRoom> OrderRooms { get; set; }
+
+        public Room()
+        {
+            OrderRooms = new List<OrderRoom>();
+        }
     }
 }

@@ -27,8 +27,6 @@ namespace Flatbuilder.DAL.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("OrderId");
-
                     b.HasKey("Id");
 
                     b.ToTable("Costumers");
@@ -50,10 +48,30 @@ namespace Flatbuilder.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CostumerId")
-                        .IsUnique();
+                    b.HasIndex("CostumerId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Flatbuilder.DAL.Entities.OrderRoom", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Note");
+
+                    b.Property<int>("OrderId");
+
+                    b.Property<int>("RoomId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("RoomId");
+
+                    b.ToTable("OrderRooms");
                 });
 
             modelBuilder.Entity("Flatbuilder.DAL.Entities.Room", b =>
@@ -62,16 +80,12 @@ namespace Flatbuilder.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("OrderId");
-
                     b.Property<double>("Price");
 
                     b.Property<string>("RoomType")
                         .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Rooms");
 
@@ -111,16 +125,21 @@ namespace Flatbuilder.DAL.Migrations
             modelBuilder.Entity("Flatbuilder.DAL.Entities.Order", b =>
                 {
                     b.HasOne("Flatbuilder.DAL.Entities.Costumer", "Costumer")
-                        .WithOne("Order")
-                        .HasForeignKey("Flatbuilder.DAL.Entities.Order", "CostumerId")
+                        .WithMany("Orders")
+                        .HasForeignKey("CostumerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Flatbuilder.DAL.Entities.Room", b =>
+            modelBuilder.Entity("Flatbuilder.DAL.Entities.OrderRoom", b =>
                 {
                     b.HasOne("Flatbuilder.DAL.Entities.Order", "Order")
-                        .WithMany("Rooms")
+                        .WithMany("OrderRooms")
                         .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Flatbuilder.DAL.Entities.Room", "Room")
+                        .WithMany("OrderRooms")
+                        .HasForeignKey("RoomId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

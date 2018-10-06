@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Flatbuilder.DAL.Migrations
 {
     [DbContext(typeof(FlatbuilderContext))]
-    [Migration("20181003185947_FlatbuilderInitialMigration")]
-    partial class FlatbuilderInitialMigration
+    [Migration("20181006140843_FlatbuilderMigration1.7")]
+    partial class FlatbuilderMigration17
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,12 +29,7 @@ namespace Flatbuilder.DAL.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("OrderId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
 
                     b.ToTable("Costumers");
                 });
@@ -55,6 +50,8 @@ namespace Flatbuilder.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CostumerId");
+
                     b.ToTable("Orders");
                 });
 
@@ -64,24 +61,20 @@ namespace Flatbuilder.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
-                    b.Property<int>("OrderId");
-
-                    b.Property<int?>("OrderId1");
+                    b.Property<int?>("OrderId");
 
                     b.Property<double>("Price");
+
+                    b.Property<string>("RoomType")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("OrderId1");
-
                     b.ToTable("Rooms");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Room");
+                    b.HasDiscriminator<string>("RoomType").HasValue("Room");
                 });
 
             modelBuilder.Entity("Flatbuilder.DAL.Entities.Bedroom", b =>
@@ -114,24 +107,19 @@ namespace Flatbuilder.DAL.Migrations
                     b.HasDiscriminator().HasValue("Shower");
                 });
 
-            modelBuilder.Entity("Flatbuilder.DAL.Entities.Costumer", b =>
+            modelBuilder.Entity("Flatbuilder.DAL.Entities.Order", b =>
                 {
-                    b.HasOne("Flatbuilder.DAL.Entities.Order", "Order")
-                        .WithOne("Costumer")
-                        .HasForeignKey("Flatbuilder.DAL.Entities.Costumer", "OrderId")
+                    b.HasOne("Flatbuilder.DAL.Entities.Costumer", "Costumer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CostumerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Flatbuilder.DAL.Entities.Room", b =>
                 {
-                    b.HasOne("Flatbuilder.DAL.Entities.Order")
-                        .WithMany("Rooms")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Flatbuilder.DAL.Entities.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId1");
+                        .WithMany("Rooms")
+                        .HasForeignKey("OrderId");
                 });
 #pragma warning restore 612, 618
         }

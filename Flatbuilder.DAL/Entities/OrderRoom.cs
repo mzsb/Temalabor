@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Flatbuilder.DAL.Entities
 {
-    public class OrderItem
+    public class OrderRoom
     {
         public int Id { get; set; }
         public int RoomId { get; set; }

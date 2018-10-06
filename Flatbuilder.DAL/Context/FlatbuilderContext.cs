@@ -18,7 +18,10 @@ namespace Flatbuilder.DAL.Context
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Costumer> Costumers { get; set; }        
         public DbSet<Order> Orders { get; set; }
-                
+
+        //many-to-many
+        public DbSet<OrderRoom> OrderRooms { get; set; }
+
         public FlatbuilderContext(DbContextOptions<FlatbuilderContext> options) : base(options)
         {
         }
@@ -48,15 +51,26 @@ namespace Flatbuilder.DAL.Context
 
             //configuring one-to-one relations
             modelBuilder.Entity<Costumer>()
-                .HasOne<Order>(c => c.Order)
+                .HasMany<Order>(c => c.Orders)
                 .WithOne(o => o.Costumer)
-                .HasForeignKey<Order>(o => o.CostumerId);
+                .HasForeignKey(o => o.CostumerId);
 
             //configuring one-to-many relations
             modelBuilder.Entity<Room>()
-                .HasOne(r => r.Order)
-                .WithMany(o => o.Rooms)
-                .HasForeignKey(r => r.OrderId);
+                .HasMany<OrderRoom>(r => r.OrderRooms)
+                .WithOne(o => o.Room);
+
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.OrderRooms)
+                .WithOne(r => r.Order);
+
+            modelBuilder.Entity<OrderRoom>()
+                .HasOne<Order>(or => or.Order)
+                .WithMany(o => o.OrderRooms);
+
+            modelBuilder.Entity<OrderRoom>()
+                .HasOne<Room>(or => or.Room)
+                .WithMany(r => r.OrderRooms);
         }        
     }
 }

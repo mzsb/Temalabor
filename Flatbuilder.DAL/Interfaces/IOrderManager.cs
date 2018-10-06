@@ -9,5 +9,6 @@ namespace Flatbuilder.DAL.Interfaces
     public interface IOrderManager
     {
         Task<List<Order>> GetOrders();
+        Task InsertAsync();
     }
 }

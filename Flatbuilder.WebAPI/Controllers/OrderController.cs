@@ -30,5 +30,12 @@ namespace Flatbuilder.WebAPI.Controllers
             var mapped = _mapper.Map<List<Order>>(res);
             return Ok(mapped);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> InsertAsync()
+        {
+            await _orderService.InsertAsync();
+            return Ok();
+        }
     }
 }

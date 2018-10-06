@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Flatbuilder.DAL.Migrations
 {
     [DbContext(typeof(FlatbuilderContext))]
-    [Migration("20181003192847_FlatbuilderMigration1.2")]
-    partial class FlatbuilderMigration12
+    [Migration("20181006140746_FlatbuilderMigration1.6")]
+    partial class FlatbuilderMigration16
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -52,8 +52,7 @@ namespace Flatbuilder.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CostumerId")
-                        .IsUnique();
+                    b.HasIndex("CostumerId");
 
                     b.ToTable("Orders");
                 });
@@ -64,12 +63,12 @@ namespace Flatbuilder.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
-                    b.Property<int>("OrderId");
+                    b.Property<int?>("OrderId");
 
                     b.Property<double>("Price");
+
+                    b.Property<string>("RoomType")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -77,7 +76,7 @@ namespace Flatbuilder.DAL.Migrations
 
                     b.ToTable("Rooms");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Room");
+                    b.HasDiscriminator<string>("RoomType").HasValue("Room");
                 });
 
             modelBuilder.Entity("Flatbuilder.DAL.Entities.Bedroom", b =>
@@ -113,8 +112,8 @@ namespace Flatbuilder.DAL.Migrations
             modelBuilder.Entity("Flatbuilder.DAL.Entities.Order", b =>
                 {
                     b.HasOne("Flatbuilder.DAL.Entities.Costumer", "Costumer")
-                        .WithOne("Order")
-                        .HasForeignKey("Flatbuilder.DAL.Entities.Order", "CostumerId")
+                        .WithMany("Orders")
+                        .HasForeignKey("CostumerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -122,8 +121,7 @@ namespace Flatbuilder.DAL.Migrations
                 {
                     b.HasOne("Flatbuilder.DAL.Entities.Order", "Order")
                         .WithMany("Rooms")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrderId");
                 });
 #pragma warning restore 612, 618
         }
