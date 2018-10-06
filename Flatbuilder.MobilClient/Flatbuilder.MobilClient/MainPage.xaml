@@ -6,9 +6,10 @@
 
     <StackLayout>
         <!-- Place new controls here -->
-        <Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+        <Button Clicked="listOrdersButton_Click" Text="List Orders"/>
+        <ScrollView >
+            <Label x:Name="ordersListView" Text=""/>
+         </ScrollView>
     </StackLayout>
 
 </ContentPage>

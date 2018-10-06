@@ -2,21 +2,14 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace Flatbuilder.MobilClient
 {
-    public partial class MainPage : ContentPage
+    public class FlatbuilderWebAPIClient
     {
-        public MainPage()
-        {
-            InitializeComponent();
-        }
-
         static Uri baseAddress = new Uri("http://localhost:44357");
 
         public static async Task<List<Order>> ListOrders()
@@ -29,21 +22,6 @@ namespace Flatbuilder.MobilClient
                 string json = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<Order>>(json);
             }
-        }
-        public static async Task<String> ListOrdersString()
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = baseAddress;
-
-                var response = await client.GetAsync("api/Order/list");
-                return await response.Content.ReadAsStringAsync();
-            }
-        }
-
-        async void listOrdersButton_Click(object sender, System.EventArgs e)
-        {
-            ordersListView.Text = await ListOrdersString();
         }
     }
 }
