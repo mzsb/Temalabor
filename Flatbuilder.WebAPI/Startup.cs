@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Flatbuilder.DAL.Context;
+using Flatbuilder.DAL.Interfaces;
+using Flatbuilder.DAL.Managers;
 using Flatbuilder.WebAPI.Mapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +36,7 @@ namespace Flatbuilder.WebAPI
             services.AddDbContext<FlatbuilderContext>(o => o.UseSqlServer(Configuration.GetConnectionString(nameof(FlatbuilderContext))));
             //automapper hozzáadása
             services.AddSingleton<IMapper>(MapperConfig.Configure());
+            services.AddTransient<IOrderManager, OrderManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

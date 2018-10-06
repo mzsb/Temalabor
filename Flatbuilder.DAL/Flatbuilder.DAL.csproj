@@ -12,9 +12,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Managers\" />
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
 </Project>
