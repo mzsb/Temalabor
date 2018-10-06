@@ -39,6 +39,7 @@ namespace Flatbuilder.DAL.Context
             modelBuilder.Entity<Bedroom>().HasBaseType<Room>();
             modelBuilder.Entity<Kitchen>().HasBaseType<Room>();
             modelBuilder.Entity<Shower>().HasBaseType<Room>();
+            modelBuilder.Entity<Room>().HasDiscriminator<string>("RoomType");
 
             //configuring Ids
             modelBuilder.Entity<Room>().HasKey(r => r.Id);
@@ -52,9 +53,9 @@ namespace Flatbuilder.DAL.Context
                 .HasForeignKey<Order>(o => o.CostumerId);
 
             //configuring one-to-many relations
-            modelBuilder.Entity<Order>()
-                .HasMany(o => o.Rooms)
-                .WithOne(r => r.Order)
+            modelBuilder.Entity<Room>()
+                .HasOne(r => r.Order)
+                .WithMany(o => o.Rooms)
                 .HasForeignKey(r => r.OrderId);
         }        
     }
