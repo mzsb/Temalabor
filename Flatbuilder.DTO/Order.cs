@@ -12,6 +12,11 @@ namespace Flatbuilder.DTO
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Location { get; set; }
-        public ICollection<Room> Rooms { get; set; }
+        public ICollection<OrderRoom> OrderRooms { get; set; }
+
+        public Order()
+        {
+            OrderRooms = new List<OrderRoom>();
+        }
     }
 }

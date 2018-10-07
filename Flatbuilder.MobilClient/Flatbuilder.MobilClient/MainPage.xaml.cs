@@ -17,7 +17,7 @@ namespace Flatbuilder.MobilClient
             InitializeComponent();
         }
 
-        static Uri baseAddress = new Uri("http://localhost:44357");
+        static Uri baseAddress = new Uri("http://10.0.2.2:51502/");
 
         public static async Task<List<Order>> ListOrders()
         {
@@ -36,8 +36,16 @@ namespace Flatbuilder.MobilClient
             {
                 client.BaseAddress = baseAddress;
 
-                var response = await client.GetAsync("api/Order/list");
-                return await response.Content.ReadAsStringAsync();
+                try
+                {
+                    var response = await client.GetAsync("api/Order/list");
+                    return await response.Content.ReadAsStringAsync();
+                }
+                catch (Exception e)
+                {
+                    
+                    throw;
+                }
             }
         }
 

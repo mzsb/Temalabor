@@ -10,6 +10,11 @@ namespace Flatbuilder.DTO
         public int Id { get; set; }       
         public double Price { get; set; }
         public int OrderId { get; set; }
-        public Order Order { get; set; } = null;
+        public ICollection<OrderRoom> OrderRooms { get; set; }
+
+        public Room()
+        {
+            OrderRooms = new List<OrderRoom>();
+        }
     }
 }
