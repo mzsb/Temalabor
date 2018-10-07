@@ -1,4 +1,6 @@
-﻿namespace Flatbuilder.DTO
+﻿using System.Collections.Generic;
+
+namespace Flatbuilder.DTO
 {
     public class Costumer
     {

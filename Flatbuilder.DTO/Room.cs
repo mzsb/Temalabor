@@ -9,12 +9,12 @@ namespace Flatbuilder.DTO
     {
         public int Id { get; set; }       
         public double Price { get; set; }
-        public int OrderId { get; set; }
-        public ICollection<OrderRoom> OrderRooms { get; set; }
+        
+        //public ICollection<OrderRoom> OrderRooms { get; set; }
 
-        public Room()
-        {
-            OrderRooms = new List<OrderRoom>();
-        }
+        //public Room()
+        //{
+        //    OrderRooms = new List<OrderRoom>();
+        //}
     }
 }
