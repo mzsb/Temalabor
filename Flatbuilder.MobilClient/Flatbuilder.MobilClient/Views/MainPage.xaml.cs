@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace Flatbuilder.MobilClient
+namespace Flatbuilder.MobilClient.Views
 {
     public partial class MainPage : ContentPage
     {
@@ -41,7 +41,7 @@ namespace Flatbuilder.MobilClient
                     var response = await client.GetAsync("api/Order/list");
                     return await response.Content.ReadAsStringAsync();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     
                     throw;
