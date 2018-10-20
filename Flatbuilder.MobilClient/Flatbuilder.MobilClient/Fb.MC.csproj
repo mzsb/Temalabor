@@ -26,10 +26,6 @@
       <Generator>MSBuild:Compile</Generator>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
   <PropertyGroup>
     <UseShortFileNames>True</UseShortFileNames>
   </PropertyGroup>
