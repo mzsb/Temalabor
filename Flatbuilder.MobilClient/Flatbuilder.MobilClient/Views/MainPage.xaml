@@ -12,7 +12,7 @@
         <!-- Place new controls here -->
         <Button Clicked="listOrdersButton_Click" Text="List Orders"/>
         <ScrollView >
-            <Label x:Name="ordersListView" Text=""/>
+            <Label x:Name="ordersListView" Text="{Binding ordersListViewText, Mode=OneWay}"/>
          </ScrollView>
     </StackLayout>
 
