@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Flatbuilder.MobilClient
+namespace Fb.MC
 {
     public class FlatbuilderWebAPIClient
     {

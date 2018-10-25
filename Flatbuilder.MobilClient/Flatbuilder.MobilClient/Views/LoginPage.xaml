@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Flatbuilder.MobilClient.Views"
-             xmlns:models="clr-namespace:Flatbuilder.MobilClient.ViewModels"
-             x:Class="Flatbuilder.MobilClient.Views.LoginPage">
+             xmlns:local="clr-namespace:Fb.MC.Views"
+             xmlns:models="clr-namespace:Fb.MC.ViewModels"
+             x:Class="Fb.MC.Views.LoginPage">
     <StackLayout
             HorizontalOptions="Center" 
             VerticalOptions="Center">
@@ -21,7 +21,8 @@
             <Entry 
                 HorizontalOptions="Center" 
                 VerticalOptions="Center"  
-                Placeholder="Name"/>
+                Placeholder="Name"
+                Text="{Binding UserName, Mode=OneWay}"/>
             <Entry 
                 HorizontalOptions="Center" 
                 VerticalOptions="Center"  

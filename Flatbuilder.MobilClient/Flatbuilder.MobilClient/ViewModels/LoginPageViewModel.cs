@@ -10,12 +10,24 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace Flatbuilder.MobilClient.ViewModels
+namespace Fb.MC.ViewModels
 {
     public class LoginPageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand LoginCommand { private set; get; }
+        string Username
+        {
+            get
+            {
+                return Username;
+            }
+            set
+            {
+                    Username = value;
+                    PropertyChanged(this, new PropertyChangedEventArgs("UserName"));
+            }
+        }
 
         public LoginPageViewModel()
         {
@@ -23,7 +35,7 @@ namespace Flatbuilder.MobilClient.ViewModels
                 async () =>
                 {
                    
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage());
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage(Username));
                 });
         }
     }

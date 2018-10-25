@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace Flatbuilder.MobilClient.Views
+namespace Fb.MC.Views
 {
     public partial class LoginPage : ContentPage
     {

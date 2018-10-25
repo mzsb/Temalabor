@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace Flatbuilder.MobilClient.iOS
+namespace Fb.MC.iOS
 {
     public class Application
     {

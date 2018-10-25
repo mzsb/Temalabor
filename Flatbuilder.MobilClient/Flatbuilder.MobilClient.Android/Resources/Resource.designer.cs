@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("Flatbuilder.MobilClient.Droid.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("Fb.MC.Droid.Resource", IsApplication=true)]
 
-namespace Flatbuilder.MobilClient.Droid
+namespace Fb.MC.Droid
 {
 	
 	
@@ -26,7 +26,7 @@ namespace Flatbuilder.MobilClient.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::Flatbuilder.MobilClient.Droid.Resource.Attribute.actionBarSize;
+			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::Fb.MC.Droid.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Animation

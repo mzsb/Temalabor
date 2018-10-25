@@ -1,10 +1,10 @@
-﻿using Flatbuilder.MobilClient.Views;
+﻿using Fb.MC.Views;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
-namespace Flatbuilder.MobilClient
+namespace Fb.MC
 {
     public partial class App : Application
     {

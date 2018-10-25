@@ -1,14 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:Flatbuilder.MobilClient.Views"
-             xmlns:models="clr-namespace:Flatbuilder.MobilClient.ViewModels"
+             xmlns:local="clr-namespace:Fb.MC.Views"
+             xmlns:models="clr-namespace:Fb.MC.ViewModels"
              x:Class="Fb.MC.Views.MainPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
+            <Label Text="{Binding UserName, Mode=OneWayToSource}"
                 VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                HorizontalOptions="CenterAndExpand" 
+                >
+                <Label.BindingContext>
+                    <models:MainPageViewModel/>
+                </Label.BindingContext>
+            </Label>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
