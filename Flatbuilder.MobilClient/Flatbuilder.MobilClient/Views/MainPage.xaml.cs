@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FreshMvvm;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,12 +12,16 @@ namespace Fb.MC.Views
 {
 	public partial class MainPage : ContentPage
 	{
-        string Username { get; }
+        public string UserName { get; }
 
+        public MainPage()
+        {
+            InitializeComponent();
+        }
 		public MainPage (string username)
 		{
-            this.Username = username;
 			InitializeComponent ();
+
 		}
 	}
 }

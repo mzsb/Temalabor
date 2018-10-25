@@ -1,5 +1,6 @@
 ﻿using Fb.MC.Views;
 using Flatbuilder.DTO;
+using FreshMvvm;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,20 +13,26 @@ using Xamarin.Forms;
 
 namespace Fb.MC.ViewModels
 {
-    public class LoginPageViewModel : INotifyPropertyChanged
+    public class LoginPageViewModel : FreshBasePageModel, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
         public ICommand LoginCommand { private set; get; }
-        string Username
+        private string userName;
+        public string UserName
         {
             get
             {
-                return Username;
+                return userName;
             }
             set
             {
-                    Username = value;
-                    PropertyChanged(this, new PropertyChangedEventArgs("UserName"));
+
+                if (userName != value)
+                {
+                    userName = value;
+                    RaisePropertyChanged(userName);
+                   // PropertyChanged(this, new PropertyChangedEventArgs("username")); 
+                }
             }
         }
 
@@ -34,9 +41,12 @@ namespace Fb.MC.ViewModels
             LoginCommand = new Command(
                 async () =>
                 {
-                   
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage(Username));
+                   // await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage(UserName));
                 });
+        }
+        public override void Init(object initData)
+        {
+            base.Init(initData);
         }
     }
 }

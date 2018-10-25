@@ -1,18 +1,18 @@
-﻿using Fb.MC.Views;
+﻿using Fb.MC.ViewModels;
+using Fb.MC.Views;
+using FreshMvvm;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Fb.MC
 {
     public partial class App : Application
     {
         public App()
         {
-            InitializeComponent();
 
-            MainPage = new LoginPage();
+            MainPage = FreshPageModelResolver.ResolvePageModel<LoginPageViewModel>();
         }
 
         protected override void OnStart()

@@ -1,4 +1,5 @@
 ﻿using Flatbuilder.DTO;
+using FreshMvvm;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,17 +10,30 @@ using System.Threading.Tasks;
 
 namespace Fb.MC.ViewModels
 {
-    class MainPageViewModel : INotifyPropertyChanged
+    class MainPageViewModel : FreshBasePageModel, INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
         static Uri baseAddress = new Uri("http://10.0.2.2:51502/");
 
         public string ordersListViewText;
         public string OrdersListViewText
         {
-            get { return ordersListViewText; }
-            private set { ordersListViewText = value; PropertyChanged(this, new PropertyChangedEventArgs("OrderListTV")); }
+            get
+            {
+                return ordersListViewText;
+            }
+            private set
+            {
+                ordersListViewText = value;
+                RaisePropertyChanged(ordersListViewText);
+                //PropertyChanged(this, new PropertyChangedEventArgs("OrderListTV"));
+            }
+        }
+
+        public override void Init(object initData)
+        {
+            base.Init(initData);
         }
 
         public static async Task<List<Order>> ListOrders()
