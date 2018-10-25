@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Flatbuilder.MobilClient.Views"
+             xmlns:models="clr-namespace:Flatbuilder.MobilClient.ViewModels"
+             x:Class="Flatbuilder.MobilClient.Views.LoginPage">
+    <StackLayout
+            HorizontalOptions="Center" 
+            VerticalOptions="Center">
+        <StackLayout
+             Spacing="10"
+             Padding="20">
+            <Label 
+                Text="Please log in!"  
+                HorizontalOptions="Center" 
+                VerticalOptions="Center"
+                FontSize="Large"/>
+            <Entry 
+                HorizontalOptions="Center" 
+                VerticalOptions="Center"  
+                Placeholder="Name"/>
+            <Entry 
+                HorizontalOptions="Center" 
+                VerticalOptions="Center"  
+                Placeholder="Password"
+                IsEnabled="False"/>
+            <Button 
+                Text="Log in" 
+                HorizontalOptions="Center" 
+                VerticalOptions="Center"  
+                IsVisible="True"/>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

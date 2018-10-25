@@ -3,17 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Flatbuilder.MobilClient.Views"
              xmlns:models="clr-namespace:Flatbuilder.MobilClient.ViewModels"
-             x:Class="Flatbuilder.MobilClient.Views.MainPage">
-
-    <StackLayout>
-        <StackLayout.BindingContext>
-            <models:MainPageViewModel/>
-        </StackLayout.BindingContext>
-        <!-- Place new controls here -->
-        <Button Clicked="listOrdersButton_Click" Text="List Orders"/>
-        <ScrollView >
-            <Label x:Name="ordersListView" Text="{Binding ordersListViewText, Mode=OneWay}"/>
-         </ScrollView>
-    </StackLayout>
-
+             x:Class="Fb.MC.Views.MainPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Welcome to Xamarin.Forms!"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

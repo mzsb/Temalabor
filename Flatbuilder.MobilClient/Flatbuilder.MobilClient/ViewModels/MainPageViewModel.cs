@@ -7,9 +7,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Flatbuilder.MobilClient.ViewModels
+namespace Fb.MC.ViewModels
 {
-    public class MainPageViewModel : INotifyPropertyChanged
+    class MainPageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
