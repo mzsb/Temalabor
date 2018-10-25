@@ -7,6 +7,9 @@
     <StackLayout
             HorizontalOptions="Center" 
             VerticalOptions="Center">
+        <StackLayout.BindingContext>
+            <models:LoginPageViewModel/>
+        </StackLayout.BindingContext>
         <StackLayout
              Spacing="10"
              Padding="20">
@@ -28,7 +31,8 @@
                 Text="Log in" 
                 HorizontalOptions="Center" 
                 VerticalOptions="Center"  
-                IsVisible="True"/>
+                IsVisible="True"
+                Command="{Binding LoginCommand}"/>
         </StackLayout>
     </StackLayout>
 </ContentPage>
