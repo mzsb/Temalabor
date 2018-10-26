@@ -1,5 +1,4 @@
-﻿using Fb.MC.ViewModels;
-using Fb.MC.Views;
+﻿using Fb.MC.Views;
 using FreshMvvm;
 using System;
 using Xamarin.Forms;
@@ -11,9 +10,17 @@ namespace Fb.MC
     {
         public App()
         {
+            try
+            {
+                MainPage = FreshPageModelResolver.ResolvePageModel<LoginPageModel>();
+            }
+            catch (Exception)
+            {
 
-            MainPage = FreshPageModelResolver.ResolvePageModel<LoginPageViewModel>();
+                throw;
+            }
         }
+        
 
         protected override void OnStart()
         {

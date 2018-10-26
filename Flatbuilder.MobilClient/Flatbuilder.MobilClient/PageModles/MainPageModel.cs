@@ -8,9 +8,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fb.MC.ViewModels
+namespace Fb.MC.Views
 {
-    class MainPageViewModel : FreshBasePageModel, INotifyPropertyChanged
+    class MainPageModel : FreshBasePageModel
     {
         //public event PropertyChangedEventHandler PropertyChanged;
 
@@ -30,10 +30,16 @@ namespace Fb.MC.ViewModels
                 //PropertyChanged(this, new PropertyChangedEventArgs("OrderListTV"));
             }
         }
+        private string userName;
+        public string UserName { get { return userName; } private set {
+                userName = value;
+                RaisePropertyChanged(userName);
+            } }
 
         public override void Init(object initData)
         {
             base.Init(initData);
+            UserName = initData.ToString();
         }
 
         public static async Task<List<Order>> ListOrders()

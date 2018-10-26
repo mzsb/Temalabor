@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-namespace Fb.MC.ViewModels
+namespace Fb.MC.Views
 {
-    public class LoginPageViewModel : FreshBasePageModel, INotifyPropertyChanged
+    public class LoginPageModel : FreshBasePageModel
     {
         //public event PropertyChangedEventHandler PropertyChanged;
         public ICommand LoginCommand { private set; get; }
@@ -26,27 +26,24 @@ namespace Fb.MC.ViewModels
             }
             set
             {
-
-                if (userName != value)
-                {
                     userName = value;
                     RaisePropertyChanged(userName);
                    // PropertyChanged(this, new PropertyChangedEventArgs("username")); 
-                }
             }
         }
-
-        public LoginPageViewModel()
+        public LoginPageModel()
         {
             LoginCommand = new Command(
-                async () =>
-                {
-                   // await Application.Current.MainPage.Navigation.PushModalAsync(new MainPage(UserName));
-                });
+               () =>
+               {
+                   Application.Current.MainPage = FreshPageModelResolver.ResolvePageModel<MainPageModel>(UserName);
+               });
         }
+       
         public override void Init(object initData)
         {
             base.Init(initData);
+           
         }
     }
 }

@@ -12,16 +12,11 @@ namespace Fb.MC.Views
 {
 	public partial class MainPage : ContentPage
 	{
-        public string UserName { get; }
+        
 
         public MainPage()
         {
             InitializeComponent();
         }
-		public MainPage (string username)
-		{
-			InitializeComponent ();
-
-		}
 	}
 }
