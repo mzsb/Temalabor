@@ -28,15 +28,24 @@ namespace Fb.MC.Views
             {
                     userName = value;
                     RaisePropertyChanged(userName);
-                   // PropertyChanged(this, new PropertyChangedEventArgs("username")); 
+                    ((Command)LoginCommand).ChangeCanExecute();
+                // PropertyChanged(this, new PropertyChangedEventArgs("username")); 
             }
         }
         public LoginPageModel()
         {
             LoginCommand = new Command(
-               () =>
+               execute: () =>
+                {
+                    Application.Current.MainPage = FreshPageModelResolver.ResolvePageModel<MainPageModel>(UserName);
+                },
+               canExecute:() => 
                {
-                   Application.Current.MainPage = FreshPageModelResolver.ResolvePageModel<MainPageModel>(UserName);
+                   if (UserName == "")
+                   {
+                       return false;
+                   }
+                   else return true;
                });
         }
        
