@@ -41,7 +41,7 @@ namespace Fb.MC.Views
                 },
                canExecute:() => 
                {
-                   if (UserName == "")
+                   if (UserName == "" || UserName == null)
                    {
                        return false;
                    }
