@@ -12,6 +12,30 @@
             </Label>
             <Label
                 Text="{Binding Orders}"/>
+            <ListView 
+                ItemsSource="{Binding Ordersl}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label
+                                    Text="{Binding Id}"/>
+                                <Label 
+                                    Text="{Binding Costumer.Name}"/>
+                                <StackLayout
+                                    Orientation="Horizontal">
+                                    <Label
+                                        Text="{Binding StartDate}"/>
+                                    <Label
+                                        Text="{Binding EndDate}"/>
+                                </StackLayout>
+                                <Label
+                                    Text="{Binding Location}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

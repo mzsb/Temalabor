@@ -49,11 +49,26 @@ namespace Fb.MC.Views
             }
         }
 
+        private List<Order> ordersl;
+        public List<Order> Ordersl
+        {
+            get
+            {
+                return ordersl;
+            }
+            set
+            {
+                ordersl = value;
+                RaisePropertyChanged("Ordersl");
+            }
+        }
+
         public override async void Init(object initData)
         {
             base.Init(initData);
             UserName = initData.ToString();
             Orders = await ListOrdersString();
+            Ordersl = await ListOrders();
         }
 
         public static async Task<List<Order>> ListOrders()
