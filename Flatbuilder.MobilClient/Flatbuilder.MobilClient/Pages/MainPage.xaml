@@ -10,6 +10,8 @@
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" >
             </Label>
+            <Label
+                Text="{Binding Orders}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

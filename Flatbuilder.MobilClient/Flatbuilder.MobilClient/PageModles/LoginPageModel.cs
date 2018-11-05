@@ -27,7 +27,7 @@ namespace Fb.MC.Views
             set
             {
                     userName = value;
-                    RaisePropertyChanged(userName);
+                    RaisePropertyChanged("userName");
                     ((Command)LoginCommand).ChangeCanExecute();
                 // PropertyChanged(this, new PropertyChangedEventArgs("username")); 
             }

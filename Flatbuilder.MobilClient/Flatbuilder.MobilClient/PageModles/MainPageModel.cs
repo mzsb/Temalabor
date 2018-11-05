@@ -33,13 +33,27 @@ namespace Fb.MC.Views
         private string userName;
         public string UserName { get { return userName; } private set {
                 userName = value;
-                RaisePropertyChanged(userName);
+                RaisePropertyChanged("UserName");
             } }
+        private string orders;
+        public string Orders
+        {
+            get
+            {
+                return orders;
+            }
+            set
+            {
+                orders = value;
+                RaisePropertyChanged("Orders");
+            }
+        }
 
-        public override void Init(object initData)
+        public override async void Init(object initData)
         {
             base.Init(initData);
             UserName = initData.ToString();
+            Orders = await ListOrdersString();
         }
 
         public static async Task<List<Order>> ListOrders()
