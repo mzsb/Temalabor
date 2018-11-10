@@ -67,8 +67,8 @@ namespace Fb.MC.Views
         {
             base.Init(initData);
             UserName = initData.ToString();
-            Orders = await ListOrdersString();
-            Ordersl = await ListOrders();
+            Orders = await ListOrdersByNameString(UserName);
+            Ordersl = await ListOrdersByName(UserName);
         }
 
         public static async Task<List<Order>> ListOrders()
@@ -82,6 +82,21 @@ namespace Fb.MC.Views
                 return JsonConvert.DeserializeObject<List<Order>>(json);
             }
         }
+
+
+        public static async Task<List<Order>> ListOrdersByName(String name)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = baseAddress;
+
+           
+                var response = await client.GetAsync("api/Order/list/" + name);
+                string json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Order>>(json);
+            }
+        }
+
         public static async Task<String> ListOrdersString()
         {
             using (HttpClient client = new HttpClient())
@@ -101,9 +116,27 @@ namespace Fb.MC.Views
             }
         }
 
+        public static async Task<String> ListOrdersByNameString(String name)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = baseAddress;
+
+                try
+                {
+                    var response = await client.GetAsync("api/Order/list/" + name);
+                    return await response.Content.ReadAsStringAsync();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+
         async void listOrdersButton_Click(object sender, System.EventArgs e)
         {
-            ordersListViewText = await ListOrdersString();
+            ordersListViewText = await ListOrdersByNameString(UserName);
         }
     }
 }

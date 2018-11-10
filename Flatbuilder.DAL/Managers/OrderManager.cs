@@ -24,13 +24,25 @@ namespace Flatbuilder.DAL.Managers
             var orders = await _context.Orders
                 .Include(o => o.Costumer)
                 .Include(o => o.OrderRooms)
-                    .ThenInclude(or => or.Room)
-                    .AsNoTracking()
+                .ThenInclude(or => or.Room)
+                .AsNoTracking()
                 .ToListAsync();
             return orders;
 
             //var kitchens = _context.Rooms.OfType<Kitchen>().ToList();
             //var zuhayn = _context.Rooms.OfType<Shower>().ToList();
+        }
+
+        public async Task<List<Order>> GetOrders(String name)
+        {
+            var orders = await _context.Orders
+                .Include(o => o.Costumer)
+                .Include(o => o.OrderRooms)
+                .ThenInclude(or => or.Room)
+                .AsNoTracking()
+                .Where(o => o.Costumer.Name.Equals(name))
+                .ToListAsync();
+            return orders;
         }
 
         public async Task InsertAsync(/*Order order*/)
