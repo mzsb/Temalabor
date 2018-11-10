@@ -45,6 +45,31 @@ namespace Flatbuilder.DAL.Managers
             return orders;
         }
 
+        public async Task<Order> GetOrderById(int id)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == id);
+
+            return order;
+        }
+
+        public async Task DeleteOrder(Order o)
+        {
+            _context.Remove(o);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new Exception("Concurrency error");
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
         public async Task InsertAsync(/*Order order*/)
         {
             var room = new Kitchen { Price = 400 };

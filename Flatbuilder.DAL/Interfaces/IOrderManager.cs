@@ -10,6 +10,8 @@ namespace Flatbuilder.DAL.Interfaces
     {
         Task<List<Order>> GetOrders();
         Task<List<Order>> GetOrders(String name);
+        Task<Order> GetOrderById(int id);
+        Task DeleteOrder(Order o);
         Task InsertAsync();
     }
 }

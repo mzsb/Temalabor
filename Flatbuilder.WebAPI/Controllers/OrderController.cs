@@ -22,6 +22,7 @@ namespace Flatbuilder.WebAPI.Controllers
             _orderService = orderService;
             _mapper = mapper;
         }
+
         [HttpGet("list")]
         [Produces(typeof(List<Order>))]
         public async Task<IActionResult> GetAsync()
@@ -30,6 +31,7 @@ namespace Flatbuilder.WebAPI.Controllers
             var mapped = _mapper.Map<List<Order>>(res);
             return Ok(mapped);
         }
+
         [HttpGet("list/{name}")]
         [Produces(typeof(List<Order>))]
         public async Task<IActionResult> GetAsyncByName(String name)
@@ -41,6 +43,20 @@ namespace Flatbuilder.WebAPI.Controllers
             }
             var mapped = _mapper.Map<List<Order>>(res);
             return Ok(mapped);
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            var deleted = await _orderService.GetOrderById(id);
+            if (deleted == null)
+            {
+                return NotFound("Order not found");
+            }
+
+            await _orderService.DeleteOrder(deleted);
+
+            return Ok("Successful delete");
         }
 
         [HttpGet]
