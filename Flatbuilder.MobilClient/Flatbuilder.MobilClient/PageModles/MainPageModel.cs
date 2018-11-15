@@ -1,4 +1,5 @@
-﻿using Flatbuilder.DTO;
+﻿using Fb.MC.PageModles;
+using Flatbuilder.DTO;
 using FreshMvvm;
 using Newtonsoft.Json;
 using System;
@@ -7,6 +8,8 @@ using System.ComponentModel;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace Fb.MC.Views
 {
@@ -61,6 +64,25 @@ namespace Fb.MC.Views
                 ordersl = value;
                 RaisePropertyChanged("Ordersl");
             }
+        }
+
+        public ICommand CreateOrderCommand { get; }
+        public ICommand DetailsCommand { get; }
+
+        public MainPageModel()
+        {
+            CreateOrderCommand = new Command(
+            execute: async () =>
+            {
+                await CoreMethods.PushPageModel<NewOrderPageModel>();
+            }
+            );
+            DetailsCommand = new Command(
+            execute: async () =>
+            {
+                await CoreMethods.PushPageModel<DetailsPageModel>();
+            }
+            );
         }
 
         public override async void Init(object initData)

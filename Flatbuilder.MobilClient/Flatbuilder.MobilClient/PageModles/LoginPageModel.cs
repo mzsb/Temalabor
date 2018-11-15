@@ -35,9 +35,11 @@ namespace Fb.MC.Views
         public LoginPageModel()
         {
             LoginCommand = new Command(
-               execute: () =>
+               execute: async () =>
                 {
-                    Application.Current.MainPage = FreshPageModelResolver.ResolvePageModel<MainPageModel>(UserName);
+                    var navpage = new NavigationPage();
+                    Application.Current.MainPage = navpage;
+                    await navpage.PushAsync(FreshPageModelResolver.ResolvePageModel<MainPageModel>(UserName));
                 },
                canExecute:() => 
                {
