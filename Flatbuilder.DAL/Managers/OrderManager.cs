@@ -33,8 +33,10 @@ namespace Flatbuilder.DAL.Managers
             //var zuhayn = _context.Rooms.OfType<Shower>().ToList();
         }
 
-        public async Task<List<Order>> GetOrders(String name)
+        public async Task<List<Order>> GetOrdersByName(string name)
         {
+            if (await _context.Costumers.FirstOrDefaultAsync(c => c.Name.Equals(name)) == null)
+                return null;
             var orders = await _context.Orders
                 .Include(o => o.Costumer)
                 .Include(o => o.OrderRooms)

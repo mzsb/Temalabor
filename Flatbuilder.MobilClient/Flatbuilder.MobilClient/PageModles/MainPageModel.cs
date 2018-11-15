@@ -26,7 +26,7 @@ namespace Fb.MC.Views
             private set
             {
                 ordersListViewText = value;
-                RaisePropertyChanged(ordersListViewText);
+                RaisePropertyChanged("ordersListViewText");
                 //PropertyChanged(this, new PropertyChangedEventArgs("OrderListTV"));
             }
         }
@@ -132,11 +132,6 @@ namespace Fb.MC.Views
                     throw;
                 }
             }
-        }
-
-        async void listOrdersButton_Click(object sender, System.EventArgs e)
-        {
-            ordersListViewText = await ListOrdersByNameString(UserName);
         }
     }
 }

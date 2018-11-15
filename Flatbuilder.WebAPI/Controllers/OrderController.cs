@@ -32,16 +32,29 @@ namespace Flatbuilder.WebAPI.Controllers
             return Ok(mapped);
         }
 
-        [HttpGet("list/{name}")]
+        [HttpGet("get/{name}")]
         [Produces(typeof(List<Order>))]
-        public async Task<IActionResult> GetAsyncByName(String name)
+        public async Task<IActionResult> GetAsyncByName(string name)
         {
-            var res = await _orderService.GetOrders(name);
+            var res = await _orderService.GetOrdersByName(name);
             if (res == null)
             {
                 return NotFound();
             }
             var mapped = _mapper.Map<List<Order>>(res);
+            return Ok(mapped);
+        }
+
+        [HttpGet("{id}")]
+        [Produces(typeof(Order))]
+        public async Task<IActionResult> GetAsyncById(int id)
+        {
+            var res = await _orderService.GetOrderById(id);
+            if(res == null)
+            {
+                return NotFound("Order not found!");
+            }
+            var mapped = _mapper.Map<Order>(res);
             return Ok(mapped);
         }
 

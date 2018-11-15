@@ -9,7 +9,7 @@ namespace Flatbuilder.DAL.Interfaces
     public interface IOrderManager
     {
         Task<List<Order>> GetOrders();
-        Task<List<Order>> GetOrders(String name);
+        Task<List<Order>> GetOrdersByName(string name);
         Task<Order> GetOrderById(int id);
         Task DeleteOrder(Order o);
         Task InsertAsync();
