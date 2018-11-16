@@ -38,6 +38,7 @@ namespace Flatbuilder.WebAPI
             //automapper hozzáadása
             services.AddSingleton<IMapper>(MapperConfig.Configure());
             services.AddTransient<IOrderManager, OrderManager>();
+            services.AddTransient<IRoomManager, RoomManager>();
 
             services.AddSwaggerGen(c =>
                {
