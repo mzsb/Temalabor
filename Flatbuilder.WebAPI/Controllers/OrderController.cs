@@ -25,18 +25,18 @@ namespace Flatbuilder.WebAPI.Controllers
 
         [HttpGet("list")]
         [Produces(typeof(List<Order>))]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetOrdersAsync()
         {
-            var res = await _orderService.GetOrders();
+            var res = await _orderService.GetOrdersAsync();
             var mapped = _mapper.Map<List<Order>>(res);
             return Ok(mapped);
         }
 
-        [HttpGet("get/{name}")]
+        [HttpGet("list/{name}")]
         [Produces(typeof(List<Order>))]
-        public async Task<IActionResult> GetAsyncByName(string name)
+        public async Task<IActionResult> GetOrdersByNameAsync(string name)
         {
-            var res = await _orderService.GetOrdersByName(name);
+            var res = await _orderService.GetOrdersByNameAsync(name);
             if (res == null)
             {
                 return NotFound();
@@ -45,11 +45,11 @@ namespace Flatbuilder.WebAPI.Controllers
             return Ok(mapped);
         }
 
-        [HttpGet("{id}", Name = "GetOrderById")]
+        [HttpGet("get/{id}", Name = "GetOrderById")]
         [Produces(typeof(Order))]
-        public async Task<IActionResult> GetAsyncById(int id)
+        public async Task<IActionResult> GetOrderByIdAsync(int id)
         {
-            var res = await _orderService.GetOrderById(id);
+            var res = await _orderService.GetOrderByIdAsync(id);
             if(res == null)
             {
                 return NotFound("Order not found!");
@@ -59,21 +59,21 @@ namespace Flatbuilder.WebAPI.Controllers
         }
 
         [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeleteOrder(int id)
+        public async Task<IActionResult> DeleteOrderAsync(int id)
         {
-            var deleted = await _orderService.GetOrderById(id);
+            var deleted = await _orderService.GetOrderByIdAsync(id);
             if (deleted == null)
             {
                 return NotFound("Order not found");
             }
 
-            await _orderService.DeleteOrder(deleted);
+            await _orderService.DeleteOrderAsync(deleted);
 
             return Ok("Successful delete");
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateOrder(Order o)
+        public async Task<IActionResult> CreateOrderAsync(Order o)
         {
 
            var mappedorder = _mapper.Map<DAL.Entities.Order>(o);
@@ -112,7 +112,7 @@ namespace Flatbuilder.WebAPI.Controllers
                     mappedrooms.Add(_mapper.Map<DAL.Entities.Shower>(r));
             }
 
-            var neworder = await _orderService.AddOrder(mappedorder,mappedrooms);
+            var neworder = await _orderService.AddOrderAsync(mappedorder,mappedrooms);
             if(neworder == null)
             {
                 return NotFound("No free room in the time interval");

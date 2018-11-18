@@ -19,7 +19,7 @@ namespace Flatbuilder.DAL.Managers
             _context = context;
         }
 
-        public async Task<List<Order>> GetOrders()
+        public async Task<List<Order>> GetOrdersAsync()
         {
             var orders = await _context.Orders
                 .Include(o => o.Costumer)
@@ -33,7 +33,7 @@ namespace Flatbuilder.DAL.Managers
             //var zuhayn = _context.Rooms.OfType<Shower>().ToList();
         }
 
-        public async Task<List<Order>> GetOrdersByName(string name)
+        public async Task<List<Order>> GetOrdersByNameAsync(string name)
         {
             if (await _context.Costumers.FirstOrDefaultAsync(c => c.Name.Equals(name)) == null)
                 return null;
@@ -47,21 +47,21 @@ namespace Flatbuilder.DAL.Managers
             return orders;
         }
 
-        public async Task<Order> GetOrderById(int id)
+        public async Task<Order> GetOrderByIdAsync(int id)
         {
             var order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == id);
 
             return order;
         }
 
-        public async Task DeleteOrder(Order o)
+        public async Task DeleteOrderAsync(Order o)
         {
             _context.Remove(o);
 
-            await SaveChanges();
+            await SaveChangesAsync();
         }
 
-        public async Task<Order> AddOrder(Order order, List<Room> rooms)
+        public async Task<Order> AddOrderAsync(Order order, List<Room> rooms)
         {
             if(order.EndDate <= order.StartDate)
                 throw new Exception("Invalid time interval");
@@ -112,7 +112,7 @@ namespace Flatbuilder.DAL.Managers
 
             await _context.AddAsync(newo);
 
-            await SaveChanges();
+            await SaveChangesAsync();
 
             return newo;
         }
@@ -141,7 +141,7 @@ namespace Flatbuilder.DAL.Managers
             //var szabad = _context.Rooms.Where(r => r.Id == roomId && r.OrderRooms.Any(or => or.Order.EndDate < DateTime.Now ))
         }
 
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
             try
             {

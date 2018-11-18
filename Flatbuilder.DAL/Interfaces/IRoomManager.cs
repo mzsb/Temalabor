@@ -8,11 +8,11 @@ namespace Flatbuilder.DAL.Interfaces
 {
     public interface IRoomManager
     {
-        Task<List<Room>> GetRooms();
-        Task<Room> GetRoomById(int id);
-        Task AddRoom(Room r);
-        Task<Room> UpdateRoom(int id, Room r); 
-        Task DeletRoom(Room r);
-        Task SaveChanges();
+        Task<List<Room>> GetRoomsAsync();
+        Task<Room> GetRoomByIdAsync(int id);
+        Task AddRoomAsync(Room r);
+        Task<Room> UpdateRoomAsync(int id, Room r); 
+        Task DeletRoomAsync(Room r);
+        Task SaveChangesAsync();
     }
 }

@@ -19,15 +19,12 @@ namespace Flatbuilder.DAL.Managers
             _context = context;
         }
 
-
-        public async Task<Room> GetRoomById(int id)
+        public async Task<Room> GetRoomByIdAsync(int id)
         {
-            var room = await _context.Rooms.FirstOrDefaultAsync(o => o.Id == id);
-
-            return room;
+            return await _context.Rooms.FirstOrDefaultAsync(o => o.Id == id);
         }
 
-        public async Task<List<Room>> GetRooms()
+        public async Task<List<Room>> GetRoomsAsync()
         {
             var rooms = await _context.Rooms
                 .AsNoTracking()
@@ -35,34 +32,33 @@ namespace Flatbuilder.DAL.Managers
             return rooms;
         }
 
-        public async Task AddRoom(Room r)
+        public async Task AddRoomAsync(Room r)
         {
             await _context.Rooms.AddAsync(r);
-            await SaveChanges();
+            await SaveChangesAsync();
         }
 
-        public async Task DeletRoom(Room r)
+        public async Task DeletRoomAsync(Room r)
         {
             _context.Remove(r);
-
-            await SaveChanges();
+            await SaveChangesAsync();
         }
 
-        public async Task<Room> UpdateRoom(int id, Room r)
+        public async Task<Room> UpdateRoomAsync(int id, Room r)
         {
-            var update = await GetRoomById(id);
+            var update = await GetRoomByIdAsync(id);
 
             if (update == null)
                 return null;
 
             update.Price = r.Price;
 
-            await SaveChanges();
+            await SaveChangesAsync();
 
             return update;
         }
 
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
             try
             {

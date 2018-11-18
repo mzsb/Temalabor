@@ -8,12 +8,12 @@ namespace Flatbuilder.DAL.Interfaces
 {
     public interface IOrderManager
     {
-        Task<List<Order>> GetOrders();
-        Task<List<Order>> GetOrdersByName(string name);
-        Task<Order> GetOrderById(int id);
-        Task DeleteOrder(Order o);
-        Task<Order> AddOrder(Order order,List<Room> rooms);
+        Task<List<Order>> GetOrdersAsync();
+        Task<List<Order>> GetOrdersByNameAsync(string name);
+        Task<Order> GetOrderByIdAsync(int id);
+        Task DeleteOrderAsync(Order o);
+        Task<Order> AddOrderAsync(Order order,List<Room> rooms);
         Task InsertAsync();
-        Task SaveChanges();
+        Task SaveChangesAsync();
     }
 }

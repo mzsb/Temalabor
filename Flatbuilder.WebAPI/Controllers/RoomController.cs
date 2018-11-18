@@ -25,18 +25,18 @@ namespace Flatbuilder.WebAPI.Controllers
 
         [HttpGet("list")]
         [Produces(typeof(List<Room>))]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetRoomsAsync()
         {
-            var res = await _roomService.GetRooms();
+            var res = await _roomService.GetRoomsAsync();
             var mapped = _mapper.Map<List<Room>>(res);
             return Ok(mapped);
         }
 
-        [HttpGet("list/{id}", Name = "GetRoomById")]
+        [HttpGet("get/{id}", Name = "GetRoomById")]
         [Produces(typeof(Room))]
-        public async Task<IActionResult> GetAsyncById(int id)
+        public async Task<IActionResult> GetRoomByIdAsync(int id)
         {
-            var res = await _roomService.GetRoomById(id);
+            var res = await _roomService.GetRoomByIdAsync(id);
             if(res == null)
             {
                 return NotFound("Room not found");
@@ -47,41 +47,41 @@ namespace Flatbuilder.WebAPI.Controllers
         }
 
         [HttpPost("create/kitchen")]
-        public async Task<IActionResult> CreateKitchen(Kitchen k) 
+        public async Task<IActionResult> CreateKitchenAsync(Kitchen k) 
         {
             var mapped = _mapper.Map<DAL.Entities.Kitchen>(k);
 
-            await _roomService.AddRoom(mapped);
+            await _roomService.AddRoomAsync(mapped);
 
             return CreatedAtRoute("GetRoomById", new { id = mapped.Id }, mapped);
         }
 
         [HttpPost("create/bedroom")]
-        public async Task<IActionResult> CreateBedroom(Bedroom br)
+        public async Task<IActionResult> CreateBedroomAsync(Bedroom br)
         {
             var mapped = _mapper.Map<DAL.Entities.Bedroom>(br);
 
-            await _roomService.AddRoom(mapped);
+            await _roomService.AddRoomAsync(mapped);
 
             return CreatedAtRoute("GetRoomById", new { id = mapped.Id }, mapped);
         }
 
         [HttpPost("create/shower")]
-        public async Task<IActionResult> CreateShower(Shower s)
+        public async Task<IActionResult> CreateShowerAsync(Shower s)
         {
             var mapped = _mapper.Map<DAL.Entities.Shower>(s);
 
-            await _roomService.AddRoom(mapped);
+            await _roomService.AddRoomAsync(mapped);
 
             return CreatedAtRoute("GetRoomById", new { id = mapped.Id }, mapped);
         }
 
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> Update(int id, Room item)
+        public async Task<IActionResult> UpdateRoomAsync(int id, Room item)
         {
             var mapped = _mapper.Map<DAL.Entities.Room>(item);
 
-            if(await _roomService.UpdateRoom(id, mapped) == null)
+            if(await _roomService.UpdateRoomAsync(id, mapped) == null)
             {
                 return NotFound("Room not found");
             }
@@ -90,15 +90,15 @@ namespace Flatbuilder.WebAPI.Controllers
         }
 
         [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeleteRoom(int id)
+        public async Task<IActionResult> DeleteRoomAsync(int id)
         {
-            var deleted = await _roomService.GetRoomById(id);
+            var deleted = await _roomService.GetRoomByIdAsync(id);
             if (deleted == null)
             {
                 return NotFound("Room not found");
             }
 
-            await _roomService.DeletRoom(deleted);
+            await _roomService.DeletRoomAsync(deleted);
 
             return Ok("Successful delete");
         }

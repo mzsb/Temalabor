@@ -39,6 +39,7 @@ namespace Flatbuilder.WebAPI
             services.AddSingleton<IMapper>(MapperConfig.Configure());
             services.AddTransient<IOrderManager, OrderManager>();
             services.AddTransient<IRoomManager, RoomManager>();
+            services.AddTransient<ICostumerManager, CostumerManager>();
 
             services.AddSwaggerGen(c =>
                {
