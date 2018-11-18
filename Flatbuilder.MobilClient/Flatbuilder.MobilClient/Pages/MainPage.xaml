@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Fb.MC.Views"
-             x:Class="Fb.MC.Views.MainPage">
+             xmlns:b="clr-namespace:Behaviors;assembly=Behaviors"
+             x:Class="Fb.MC.Views.MainPage"
+             x:Name="Page">
     <ContentPage.Content>
         <StackLayout>
             <Label 
@@ -13,24 +15,28 @@
             <Label
                 Text="{Binding Orders}"/>
             <ListView 
-                ItemsSource="{Binding Ordersl}">
+                ItemsSource="{Binding Ordersl}"
+                HasUnevenRows="True">
+                <ListView.Behaviors>
+                    <b:EventHandlerBehavior EventName="ItemSelected">
+                        <b:InvokeCommandAction Command="{Binding DetailsCommand}"/>
+                    </b:EventHandlerBehavior>
+                </ListView.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout>
+                            <StackLayout >
                                 <Label
-                                    Text="{Binding Id}"/>
-                                <Label 
-                                    Text="{Binding Costumer.Name}"/>
+                                    Text="{Binding Id, StringFormat='Id: {0}'}"/>
                                 <StackLayout
                                     Orientation="Horizontal">
                                     <Label
-                                        Text="{Binding StartDate}"/>
+                                        Text="{Binding StartDate, StringFormat='Start: {0}'}"/>
                                     <Label
-                                        Text="{Binding EndDate}"/>
+                                        Text="{Binding EndDate, StringFormat='End: {0}'}"/>
                                 </StackLayout>
                                 <Label
-                                    Text="{Binding Location}"/>
+                                    Text="{Binding Location, StringFormat='Location: {0}'}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

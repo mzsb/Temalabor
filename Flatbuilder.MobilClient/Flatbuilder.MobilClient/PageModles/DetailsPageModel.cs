@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Fb.MC.PageModles
+namespace Fb.MC.Views
 {
     class DetailsPageModel : FreshBasePageModel
     {

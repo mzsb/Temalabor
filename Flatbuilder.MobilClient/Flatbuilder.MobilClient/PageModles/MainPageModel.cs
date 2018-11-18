@@ -1,4 +1,4 @@
-﻿using Fb.MC.PageModles;
+﻿using Fb.MC.Views;
 using Flatbuilder.DTO;
 using FreshMvvm;
 using Newtonsoft.Json;
@@ -80,7 +80,15 @@ namespace Fb.MC.Views
             DetailsCommand = new Command(
             execute: async () =>
             {
-                await CoreMethods.PushPageModel<DetailsPageModel>();
+                try
+                {
+                    await CoreMethods.PushPageModel<DetailsPageModel>();
+                }
+                catch (Exception e)
+                {
+
+                    throw;
+                }
             }
             );
         }

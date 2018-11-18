@@ -18,5 +18,5 @@ namespace Fb.MC.Views
         {
             InitializeComponent();
         }
-	}
+    }
 }
