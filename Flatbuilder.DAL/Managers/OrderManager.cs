@@ -68,19 +68,14 @@ namespace Flatbuilder.DAL.Managers
 
             var freerooms = await _context.Rooms
                 .Include(r => r.OrderRooms)
-                .Where(r => (!_context.OrderRooms.Select(or => or.RoomId).Contains(r.Id)) //a meg nem lefoglalt szobak
-                   || (_context.OrderRooms
-                        .Where(or => (_context.Orders
-                            .Where(o => o.EndDate < order.StartDate || order.EndDate < o.StartDate) //nem zavaro foglalasok
-                            .Select(o => o.Id))
-                            .Contains(or.OrderId))
-                        .Select(or => or.RoomId)
-                        .Where(id => !(_context.OrderRooms  //a nem zavaro foglalasok szobai nincsenek zavarok foglalasok szobai kozt
+                .Where(r => (!_context.OrderRooms.Select(or => or.RoomId).Contains(r.Id)) //meg nem foglalt szobak
+                   || (!(_context.OrderRooms  //szobak amik nincsenek zavaro foglalasok szobai kozt
                             .Where(or => (_context.Orders
                                 .Where(o => (o.StartDate < order.EndDate && o.EndDate > order.StartDate) 
                                     || (o.EndDate > order.StartDate && o.StartDate < order.EndDate))
-                                .Select(o => o.Id)).Contains(or.OrderId)).Select(or => or.RoomId)).Contains(id)) 
-                        .Contains(r.Id)))
+                                .Select(o => o.Id))
+                            .Contains(or.OrderId))
+                            .Select(or => or.RoomId)).Contains(r.Id)))
                 .AsNoTracking()
                 .ToListAsync();
 
