@@ -9,7 +9,8 @@ namespace Flatbuilder.DTO
     {
         public int Id { get; set; }       
         public double Price { get; set; }
-        
+        public Type Type { get; set; }
+
         //public ICollection<OrderRoom> OrderRooms { get; set; }
 
         //public Room()

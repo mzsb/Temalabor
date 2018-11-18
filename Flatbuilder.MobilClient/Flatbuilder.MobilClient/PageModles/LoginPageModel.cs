@@ -35,7 +35,7 @@ namespace Fb.MC.Views
         public LoginPageModel()
         {
             LoginCommand = new Command(
-               execute: async () =>
+               execute: () =>
                 {
                     var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainPageModel>(UserName));
                     Application.Current.MainPage = navpage;

@@ -1,12 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Fb.MC.Views.DetailsPage">
+             x:Class="Fb.MC.Views.DetailsPage"
+             x:Name="Page">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label 
+                Text="{Binding Order.Id, StringFormat='Id: {0}'}" />
+            <Label 
+                Text="{Binding Order.StartDate, StringFormat='Starting date: {0}'}"/>
+            <Label 
+                Text="{Binding Order.EndDate, StringFormat='Ending date: {0}'}"/>
+            <Label 
+                Text="{Binding Order.Location, StringFormat='Location: {0}'}"/>
+            <Label Text="Rooms:"/>
+            <ListView
+                ItemsSource="{Binding Order.Rooms}"
+                HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Label
+                                    Text="{Binding Type, StringFormat='Type: {0}'}"/>
+                                <Label
+                                    Text="{Binding Price, StringFormat='Price: {0}'}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

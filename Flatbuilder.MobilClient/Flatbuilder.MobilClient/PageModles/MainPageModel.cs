@@ -17,29 +17,18 @@ namespace Fb.MC.Views
     {
         //public event PropertyChangedEventHandler PropertyChanged;
 
-        static Uri baseAddress = new Uri("http://10.0.2.2:51502/");
+        static readonly Uri baseAddress = new Uri("http://10.0.2.2:51502/");
 
-        public string ordersListViewText;
-        public string OrdersListViewText
-        {
-            get
-            {
-                return ordersListViewText;
-            }
-            private set
-            {
-                ordersListViewText = value;
-                RaisePropertyChanged("ordersListViewText");
-                //PropertyChanged(this, new PropertyChangedEventArgs("OrderListTV"));
-            }
-        }
+        public Order Selected { get; set; }
+
         private string userName;
         public string UserName { get { return userName; } private set {
                 userName = value;
                 RaisePropertyChanged("UserName");
             } }
-        private string orders;
-        public string Orders
+
+        private List<Order> orders;
+        public List<Order> Orders
         {
             get
             {
@@ -49,20 +38,6 @@ namespace Fb.MC.Views
             {
                 orders = value;
                 RaisePropertyChanged("Orders");
-            }
-        }
-
-        private List<Order> ordersl;
-        public List<Order> Ordersl
-        {
-            get
-            {
-                return ordersl;
-            }
-            set
-            {
-                ordersl = value;
-                RaisePropertyChanged("Ordersl");
             }
         }
 
@@ -78,11 +53,13 @@ namespace Fb.MC.Views
             }
             );
             DetailsCommand = new Command(
-            execute: async () =>
+            execute: async (object param) =>
             {
                 try
                 {
-                    await CoreMethods.PushPageModel<DetailsPageModel>();
+                    if (Selected == null)
+                        return;
+                    await CoreMethods.PushPageModel<DetailsPageModel>(Selected);
                 }
                 catch (Exception e)
                 {
@@ -97,8 +74,7 @@ namespace Fb.MC.Views
         {
             base.Init(initData);
             UserName = initData.ToString();
-            Orders = await ListOrdersByNameString(UserName);
-            Ordersl = await ListOrdersByName(UserName);
+            Orders = await ListOrdersByName(UserName);
         }
 
         public static async Task<List<Order>> ListOrders()
@@ -127,41 +103,41 @@ namespace Fb.MC.Views
             }
         }
 
-        public static async Task<String> ListOrdersString()
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = baseAddress;
+        //public static async Task<String> ListOrdersString()
+        //{
+        //    using (HttpClient client = new HttpClient())
+        //    {
+        //        client.BaseAddress = baseAddress;
 
-                try
-                {
-                    var response = await client.GetAsync("api/Order/list");
-                    return await response.Content.ReadAsStringAsync();
-                }
-                catch (Exception)
-                {
+        //        try
+        //        {
+        //            var response = await client.GetAsync("api/Order/list");
+        //            return await response.Content.ReadAsStringAsync();
+        //        }
+        //        catch (Exception)
+        //        {
 
-                    throw;
-                }
-            }
-        }
+        //            throw;
+        //        }
+        //    }
+        //}
 
-        public static async Task<String> ListOrdersByNameString(String name)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = baseAddress;
+        //public static async Task<String> ListOrdersByNameString(String name)
+        //{
+        //    using (HttpClient client = new HttpClient())
+        //    {
+        //        client.BaseAddress = baseAddress;
 
-                try
-                {
-                    var response = await client.GetAsync("api/Order/list/" + name);
-                    return await response.Content.ReadAsStringAsync();
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-        }
+        //        try
+        //        {
+        //            var response = await client.GetAsync("api/Order/list/" + name);
+        //            return await response.Content.ReadAsStringAsync();
+        //        }
+        //        catch (Exception)
+        //        {
+        //            throw;
+        //        }
+        //    }
+        //}
     }
 }

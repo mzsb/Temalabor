@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Fb.MC.Views"
              xmlns:b="clr-namespace:Behaviors;assembly=Behaviors"
+             xmlns:ownb="clr-namespace:Fb.MC.Behaviorss"
              x:Class="Fb.MC.Views.MainPage"
              x:Name="Page">
     <ContentPage.Content>
@@ -10,17 +11,22 @@
             <Label 
                 Text="{Binding UserName}"
                 VerticalOptions="Center" 
-                HorizontalOptions="Center" >
+                HorizontalOptions="Center" 
+                FontSize="Large">
             </Label>
-            <Label
-                Text="{Binding Orders}"/>
+            <Button
+                Text="Create Order"
+                HorizontalOptions="End"
+                Command="{Binding CreateOrderCommand}"/>
             <ListView 
-                ItemsSource="{Binding Ordersl}"
-                HasUnevenRows="True">
+                ItemsSource="{Binding Orders}"
+                HasUnevenRows="True"
+                SelectedItem="{Binding Selected}">
                 <ListView.Behaviors>
                     <b:EventHandlerBehavior EventName="ItemSelected">
                         <b:InvokeCommandAction Command="{Binding DetailsCommand}"/>
                     </b:EventHandlerBehavior>
+                    <ownb:ListViewNoSelectionBehavior/>
                 </ListView.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>
