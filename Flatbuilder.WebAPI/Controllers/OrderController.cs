@@ -45,7 +45,7 @@ namespace Flatbuilder.WebAPI.Controllers
             return Ok(mapped);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetOrderById")]
         [Produces(typeof(Order))]
         public async Task<IActionResult> GetAsyncById(int id)
         {
@@ -70,6 +70,57 @@ namespace Flatbuilder.WebAPI.Controllers
             await _orderService.DeleteOrder(deleted);
 
             return Ok("Successful delete");
+        }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateOrder(Order o)
+        {
+
+           var mappedorder = _mapper.Map<DAL.Entities.Order>(o);
+
+            //teszthez
+            //o = new Order
+            //{
+            //    Costumer = new Costumer { Name = "Name" },
+            //    StartDate = DateTime.Now.AddDays(-1),
+            //    EndDate = DateTime.Now.AddDays(1),
+            //    Rooms = new List<Room>
+            //    {
+            //       new Kitchen(){ Price = 100  },
+            //       new Bedroom(){ Price = 100  },
+            //       new Shower(){ Price = 100  }
+            //    }
+
+            //};
+
+            //var mappedorder = new DAL.Entities.Order
+            //{
+            //    Costumer = new DAL.Entities.Costumer { Name = o.Costumer.Name },
+            //    StartDate = o.StartDate,
+            //    EndDate = o.EndDate
+            //};
+
+            List<DAL.Entities.Room> mappedrooms = new List<DAL.Entities.Room>();
+
+            foreach (var r in o.Rooms)
+            {
+                if (r.GetType() == typeof(Kitchen))
+                    mappedrooms.Add(_mapper.Map<DAL.Entities.Kitchen>(r));
+                else if (r.GetType() == typeof(Bedroom))
+                    mappedrooms.Add(_mapper.Map<DAL.Entities.Bedroom>(r));
+                else if (r.GetType() == typeof(Shower))
+                    mappedrooms.Add(_mapper.Map<DAL.Entities.Shower>(r));
+            }
+
+            var neworder = await _orderService.AddOrder(mappedorder,mappedrooms);
+            if(neworder == null)
+            {
+                return NotFound("No free room in the time interval");
+            }
+
+            var mappedneworder = _mapper.Map<Order>(neworder);
+
+            return CreatedAtRoute("GetOrderById", new { id = mappedneworder.Id }, mappedneworder);
         }
 
         [HttpGet]

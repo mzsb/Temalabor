@@ -58,18 +58,68 @@ namespace Flatbuilder.DAL.Managers
         {
             _context.Remove(o);
 
-            try
+            await SaveChanges();
+        }
+
+        public async Task<Order> AddOrder(Order order, List<Room> rooms)
+        {
+            if(order.EndDate <= order.StartDate)
+                throw new Exception("Invalid time interval");
+
+            var freerooms = await _context.Rooms
+                .Include(r => r.OrderRooms)
+                .Where(r => (!_context.OrderRooms.Select(or => or.RoomId).Contains(r.Id)) //a meg nem lefoglalt szobak
+                   || (_context.OrderRooms
+                        .Where(or => (_context.Orders
+                            .Where(o => o.EndDate < order.StartDate || order.EndDate < o.StartDate) //nem zavaro foglalasok
+                            .Select(o => o.Id))
+                            .Contains(or.OrderId))
+                        .Select(or => or.RoomId)
+                        .Where(id => !(_context.OrderRooms  //a nem zavaro foglalasok szobai nincsenek zavarok foglalasok szobai kozt
+                            .Where(or => (_context.Orders
+                                .Where(o => (o.StartDate < order.EndDate && o.EndDate > order.StartDate) 
+                                    || (o.EndDate > order.StartDate && o.StartDate < order.EndDate))
+                                .Select(o => o.Id)).Contains(or.OrderId)).Select(or => or.RoomId)).Contains(id)) 
+                        .Contains(r.Id)))
+                .AsNoTracking()
+                .ToListAsync();
+
+            if (freerooms == null)
+                return null;
+
+            List<OrderRoom> newors = new List<OrderRoom>();
+
+            for (int i = 0; i < rooms.Count; i++)
             {
-                await _context.SaveChangesAsync();
+                foreach (var fr in freerooms)
+                    if (rooms[i].GetType().Equals(fr.GetType()))
+                    {
+                        newors.Add(new OrderRoom { RoomId = fr.Id, Note = "megrendeles" });
+                        freerooms.Remove(fr);
+                        break;
+                    }
+                if (newors.Count != (i+1))
+                    return null;
             }
-            catch (DbUpdateConcurrencyException e)
+
+            int costmerid = await _context.Costumers
+                .Where(c => c.Name == order.Costumer.Name)
+                .Select(c => c.Id)
+                .FirstOrDefaultAsync();
+
+            Order newo = new Order
             {
-                throw new Exception("Concurrency error");
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+                CostumerId = costmerid,
+                StartDate = order.StartDate,
+                EndDate = order.EndDate,
+                OrderRooms = newors
+            };
+
+            await _context.AddAsync(newo);
+
+            await SaveChanges();
+
+            return newo;
         }
 
         public async Task InsertAsync(/*Order order*/)
@@ -94,6 +144,22 @@ namespace Flatbuilder.DAL.Managers
             //var marFoglalva = await _context.Orders.AnyAsync(o => o.Rooms.Any(r => foglalasi_szobak.Contains(r.Id)));
             //var roomId = 7;
             //var szabad = _context.Rooms.Where(r => r.Id == roomId && r.OrderRooms.Any(or => or.Order.EndDate < DateTime.Now ))
+        }
+
+        public async Task SaveChanges()
+        {
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new Exception("Concurrency error");
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
     }
 }

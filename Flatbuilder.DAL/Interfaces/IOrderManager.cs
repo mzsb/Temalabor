@@ -12,6 +12,8 @@ namespace Flatbuilder.DAL.Interfaces
         Task<List<Order>> GetOrdersByName(string name);
         Task<Order> GetOrderById(int id);
         Task DeleteOrder(Order o);
+        Task<Order> AddOrder(Order order,List<Room> rooms);
         Task InsertAsync();
+        Task SaveChanges();
     }
 }
