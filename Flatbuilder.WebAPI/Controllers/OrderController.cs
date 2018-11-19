@@ -76,9 +76,8 @@ namespace Flatbuilder.WebAPI.Controllers
         public async Task<IActionResult> CreateOrderAsync(Order o)
         {
 
-           var mappedorder = _mapper.Map<DAL.Entities.Order>(o);
+            var mappedorder = _mapper.Map<DAL.Entities.Order>(o);
 
-            //teszthez
             //o = new Order
             //{
             //    Costumer = new Costumer { Name = "Name" },
@@ -101,16 +100,7 @@ namespace Flatbuilder.WebAPI.Controllers
             //};
 
             List<DAL.Entities.Room> mappedrooms = new List<DAL.Entities.Room>();
-
-            foreach (var r in o.Rooms)
-            {
-                if (r.GetType() == typeof(Kitchen))
-                    mappedrooms.Add(_mapper.Map<DAL.Entities.Kitchen>(r));
-                else if (r.GetType() == typeof(Bedroom))
-                    mappedrooms.Add(_mapper.Map<DAL.Entities.Bedroom>(r));
-                else if (r.GetType() == typeof(Shower))
-                    mappedrooms.Add(_mapper.Map<DAL.Entities.Shower>(r));
-            }
+            mappedrooms = _mapper.Map<List <DAL.Entities.Room>>(o.Rooms);
 
             var neworder = await _orderService.AddOrderAsync(mappedorder,mappedrooms);
             if(neworder == null)

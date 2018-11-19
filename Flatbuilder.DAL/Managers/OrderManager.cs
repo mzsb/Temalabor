@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace Flatbuilder.DAL.Managers
 {
@@ -66,12 +67,14 @@ namespace Flatbuilder.DAL.Managers
             if(order.EndDate <= order.StartDate)
                 throw new Exception("Invalid time interval");
 
-            var freerooms = await _context.Rooms
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                var freerooms = await _context.Rooms
                 .Include(r => r.OrderRooms)
                 .Where(r => (!_context.OrderRooms.Select(or => or.RoomId).Contains(r.Id)) //meg nem foglalt szobak
                    || (!(_context.OrderRooms  //szobak amik nincsenek zavaro foglalasok szobai kozt
                             .Where(or => (_context.Orders
-                                .Where(o => (o.StartDate < order.EndDate && o.EndDate > order.StartDate) 
+                                .Where(o => (o.StartDate < order.EndDate && o.EndDate > order.StartDate)
                                     || (o.EndDate > order.StartDate && o.StartDate < order.EndDate))
                                 .Select(o => o.Id))
                             .Contains(or.OrderId))
@@ -79,70 +82,57 @@ namespace Flatbuilder.DAL.Managers
                 .AsNoTracking()
                 .ToListAsync();
 
-            if (freerooms == null)
-                return null;
-
-            List<OrderRoom> newors = new List<OrderRoom>();
-
-            for (int i = 0; i < rooms.Count; i++)
-            {
-                foreach (var fr in freerooms)
-                    if (rooms[i].GetType().Equals(fr.GetType()))
-                    {
-                        newors.Add(new OrderRoom { RoomId = fr.Id, Note = "megrendeles" });
-                        freerooms.Remove(fr);
-                        break;
-                    }
-                if (newors.Count != (i+1))
+                if (freerooms == null)
                     return null;
+
+                List<OrderRoom> newors = new List<OrderRoom>();
+
+                for (int i = 0; i < rooms.Count; i++)
+                {
+                    foreach (var fr in freerooms)
+                        if (rooms[i].GetType().Equals(fr.GetType()))
+                        {
+                            newors.Add(new OrderRoom { RoomId = fr.Id, Note = "megrendeles" });
+                            freerooms.Remove(fr);
+                            break;
+                        }
+                    if (newors.Count != (i + 1))
+                        return null;
+                }
+
+                int costmerid = await _context.Costumers
+                    .Where(c => c.Name == order.Costumer.Name)
+                    .Select(c => c.Id)
+                    .FirstOrDefaultAsync();
+
+                Order newo = new Order
+                {
+                    CostumerId = costmerid,
+                    StartDate = order.StartDate,
+                    EndDate = order.EndDate,
+                    OrderRooms = newors
+                };
+
+                await _context.AddAsync(newo);
+
+                await SaveChangesAsync();
+
+                scope.Complete();
+
+                return newo;
             }
-
-            int costmerid = await _context.Costumers
-                .Where(c => c.Name == order.Costumer.Name)
-                .Select(c => c.Id)
-                .FirstOrDefaultAsync();
-
-            Order newo = new Order
-            {
-                CostumerId = costmerid,
-                StartDate = order.StartDate,
-                EndDate = order.EndDate,
-                OrderRooms = newors
-            };
-
-            await _context.AddAsync(newo);
-
-            await SaveChangesAsync();
-
-            return newo;
         }
 
         public async Task InsertAsync(/*Order order*/)
         {
             var room = new Kitchen { Price = 400 };
-            var room1 = new Bedroom { Price = 200 };
-            var room2 = new Shower { Price = 300 };
             _context.Rooms.Add(room);
-            _context.Rooms.Add(room1);
-            _context.Rooms.Add(room2);
 
             _context.Add(new Order
             {
                 Costumer = new Costumer { Name = "nevem" },
                 StartDate = DateTime.Now.AddDays(-5),
                 EndDate = DateTime.Now.AddDays(1),
-                OrderRooms = new List<OrderRoom>
-                {
-                    new OrderRoom { Room = room, Note = "megrendeles" },
-                    new OrderRoom { Room = room2, Note = "megrendeles" },
-                    new OrderRoom { Room = room1, Note = "megrendeles" }
-                }
-            });
-            _context.Add(new Order
-            {
-                Costumer = new Costumer { Name = "nevem" },
-                StartDate = DateTime.Now.AddDays(5),
-                EndDate = DateTime.Now.AddDays(10),
                 OrderRooms = new List<OrderRoom>
                 {
                     new OrderRoom { Room = room, Note = "megrendeles" }

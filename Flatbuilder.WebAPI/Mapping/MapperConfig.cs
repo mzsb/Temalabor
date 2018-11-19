@@ -23,8 +23,15 @@ namespace Flatbuilder.WebAPI.Mapping
                    })
                 ;
 
-                cfg.CreateMap<Room, Flatbuilder.DTO.Room>();
-                cfg.CreateMap<Flatbuilder.DTO.Room, Room>();
+                cfg.CreateMap<Room, Flatbuilder.DTO.Room>()
+                .Include<Shower, Flatbuilder.DTO.Shower>()
+                .Include<Bedroom, Flatbuilder.DTO.Bedroom>()
+                .Include<Kitchen, Flatbuilder.DTO.Kitchen>();
+
+                cfg.CreateMap<Flatbuilder.DTO.Room, Room>()
+                .Include<Flatbuilder.DTO.Shower, Shower>()
+                .Include<Flatbuilder.DTO.Bedroom, Bedroom>()
+                .Include<Flatbuilder.DTO.Kitchen, Kitchen>();
 
                 cfg.CreateMap<Flatbuilder.DTO.Bedroom, Bedroom>().ReverseMap();
                 cfg.CreateMap<Flatbuilder.DTO.Shower, Shower>().ReverseMap();
@@ -33,7 +40,6 @@ namespace Flatbuilder.WebAPI.Mapping
                 cfg.CreateMap<Flatbuilder.DTO.Costumer, Costumer>().ReverseMap();
 
             });
-
 
             return config.CreateMapper();
         }
