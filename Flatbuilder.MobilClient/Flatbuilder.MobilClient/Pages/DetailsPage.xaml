@@ -5,6 +5,10 @@
              x:Name="Page">
     <ContentPage.Content>
         <StackLayout>
+            <Button
+                Command="DeleteOrderCommand"
+                Text="Delete"
+                VerticalOptions="End"/>
             <Label 
                 Text="{Binding Order.Id, StringFormat='Id: {0}'}" />
             <Label 
