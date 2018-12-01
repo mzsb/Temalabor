@@ -28,7 +28,7 @@ namespace Fb.MC.Views
                 RaisePropertyChanged("Order");
             }
         }
-        ICommand DeleteOrderCommand { get; }
+        public ICommand DeleteOrderCommand { get; }
 
         public override void Init(object initData)
         {
@@ -53,10 +53,11 @@ namespace Fb.MC.Views
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = baseAddress;
-                var response = await client.GetAsync("api/Order/delete/" + id);
+                var response = await client.DeleteAsync("api/Order/delete/" + id);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
-                    await CoreMethods.PopToRoot(false);
+                    var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainPageModel>(Order.Costumer.Name));
+                    Application.Current.MainPage = navpage;
                 }
             }
         }

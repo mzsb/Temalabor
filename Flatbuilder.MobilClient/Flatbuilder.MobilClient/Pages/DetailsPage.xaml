@@ -6,7 +6,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Button
-                Command="DeleteOrderCommand"
+                Command="{Binding DeleteOrderCommand}"
                 Text="Delete"
                 VerticalOptions="End"/>
             <Label 

@@ -4,9 +4,32 @@
              x:Class="Fb.MC.Views.NewOrderPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="Starting Date: "/>
+            <DatePicker x:Name="StartDate"/>
+            <Label Text="Ending Date: "/>
+            <DatePicker x:Name="EndDate"/>
+            <Label Text="Available Rooms: "/>
+            <StackLayout Orientation="Horizontal">
+                <StackLayout
+                    Orientation="Vertical">
+                    <Label Text="Bedroom:"/>
+                    <Picker x:Name="Bedrooms"/>
+                </StackLayout>
+                <StackLayout
+                    Orientation="Vertical">
+                    <Label Text="Kitchen:"/>
+                    <Picker x:Name="Kitchens"/>
+                </StackLayout>
+                <StackLayout
+                    Orientation="Vertical">
+                    <Label Text="Shower:"/>
+                    <Picker x:Name="Showers"/>
+                </StackLayout>
+            </StackLayout>
+            <Button 
+                Text="Create"
+                HorizontalOptions="EndAndExpand"
+                VerticalOptions="EndAndExpand"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

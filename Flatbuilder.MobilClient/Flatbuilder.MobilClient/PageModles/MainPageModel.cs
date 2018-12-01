@@ -70,10 +70,15 @@ namespace Fb.MC.Views
             );
         }
 
-        public override async void Init(object initData)
+        public override void Init(object initData)
         {
             base.Init(initData);
             UserName = initData.ToString();
+        }
+
+        protected override async void ViewIsAppearing(object sender, EventArgs e)
+        {
+            base.ViewIsAppearing(sender, e);
             Orders = await ListOrdersByName(UserName);
         }
 
