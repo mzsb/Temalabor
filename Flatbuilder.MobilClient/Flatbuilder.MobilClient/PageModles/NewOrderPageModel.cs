@@ -22,6 +22,7 @@ namespace Fb.MC.Views
             set
             {
                 startDate = value;
+                OnPropertyChanged();
                 RaisePropertyChanged("StartDate");
             }
         }
@@ -35,6 +36,7 @@ namespace Fb.MC.Views
             set
             {
                 endDate = value;
+                OnPropertyChanged();
                 RaisePropertyChanged("EndDate");
             }
         }
@@ -68,9 +70,8 @@ namespace Fb.MC.Views
             base.Init(initData);
             StartDate = DateTime.Now;
             EndDate = DateTime.Now.AddDays(5);
-           // PropertyChanged += OnPropertyChanged;
         }
-        protected void OnPropertyChanged(object sender, EventArgs args)
+        protected void OnPropertyChanged()
         {
            double pr=0;
            double days = (EndDate - StartDate).TotalDays;
