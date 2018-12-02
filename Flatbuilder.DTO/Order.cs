@@ -13,5 +13,6 @@ namespace Flatbuilder.DTO
         public DateTime EndDate { get; set; }
         public string Location { get; set; }
         public List<Room> Rooms { get; set; }
+        public double Price { get; set; }
     }
 }

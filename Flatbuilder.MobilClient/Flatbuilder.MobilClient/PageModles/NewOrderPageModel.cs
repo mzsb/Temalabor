@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
 using System.Text;
@@ -19,8 +20,8 @@ namespace Fb.MC.Views
         static readonly Uri baseAddress = new Uri("http://10.0.2.2:51502/");
 
         public ICommand CreateOrderCommand { get; }
-        private List<int>kpicker;
-        public List<int> Kpicker
+        private ObservableCollection<int>kpicker;
+        public ObservableCollection<int> Kpicker
         {
             get
             {
@@ -55,12 +56,89 @@ namespace Fb.MC.Views
                     freeRooms.Remove(room);
                 }
                 RaisePropertyChanged("SelectedK");
+                ReCountPrice();
             }
         }
 
+        private ObservableCollection<int> spicker;
+        public ObservableCollection<int> Spicker
+        {
+            get
+            {
+                return spicker;
+            }
+            set
+            {
+                spicker = value;
+                RaisePropertyChanged("Spicker");
+            }
+        }
+        private int selectedS;
+        public int SelectedS
+        {
+            get
+            {
+                return selectedS;
+            }
+            set
+            {
+                for (int i = 0; i < selectedS; i++)
+                {
+                    Room room = rooms.Find(r => r.Type.ToString().Equals("Flatbuilder.DTO.Shower"));
+                    rooms.Remove(room);
+                    freeRooms.Add(room);
+                }
+                selectedS = value;
+                for (int i = 0; i < selectedS; i++)
+                {
+                    Room room = freeRooms.Find(r => r.Type.ToString().Equals("Flatbuilder.DTO.Shower"));
+                    rooms.Add(room);
+                    freeRooms.Remove(room);
+                }
+                RaisePropertyChanged("SelectedS");
+                ReCountPrice();
+            }
+        }
 
-        public List<int> Spicker { get; set; }
-        public List<int> Bpicker { get; set; }
+        private ObservableCollection<int> bpicker;
+        public ObservableCollection<int> Bpicker
+        {
+            get
+            {
+                return bpicker;
+            }
+            set
+            {
+                bpicker = value;
+                RaisePropertyChanged("Bpicker");
+            }
+        }
+        private int selectedB;
+        public int SelectedB
+        {
+            get
+            {
+                return selectedB;
+            }
+            set
+            {
+                for (int i = 0; i < selectedB; i++)
+                {
+                    Room room = rooms.Find(r => r.Type.ToString().Equals("Flatbuilder.DTO.Bedroom"));
+                    rooms.Remove(room);
+                    freeRooms.Add(room);
+                }
+                selectedB = value;
+                for (int i = 0; i < selectedB; i++)
+                {
+                    Room room = freeRooms.Find(r => r.Type.ToString().Equals("Flatbuilder.DTO.Bedroom"));
+                    rooms.Add(room);
+                    freeRooms.Remove(room);
+                }
+                RaisePropertyChanged("SelectedB");
+                ReCountPrice();
+            }
+        }
 
         private DateTime startDate = DateTime.Now;
         public DateTime StartDate
@@ -120,7 +198,8 @@ namespace Fb.MC.Views
                         Costumer = User,
                         StartDate = this.StartDate,
                         EndDate = this.EndDate,
-                        Rooms = rooms
+                        Rooms = rooms,
+                        Price = this.Price
                     };
 
                     using (HttpClient client = new HttpClient())
@@ -164,12 +243,23 @@ namespace Fb.MC.Views
         protected async void PropertyChangedOwn()
         {
             SelectedK = 0;
+            SelectedS = 0;
+            SelectedB = 0;
+
             freeRooms = await GetRooms(StartDate, EndDate);
             if(Kpicker==null)
-                Kpicker = new List<int>();
+                Kpicker = new ObservableCollection<int>();
+            if (Spicker == null)
+                Spicker = new ObservableCollection<int>();
+            if (Bpicker == null)
+                Bpicker = new ObservableCollection<int>();
             Kpicker.Clear();
             Kpicker.Add(0);
-            if(freeRooms != null || freeRooms.Count != 0)
+            Spicker.Clear();
+            Spicker.Add(0);
+            Bpicker.Clear();
+            Bpicker.Add(0);
+            if (freeRooms != null || freeRooms.Count != 0)
             {
                 int k = 0;
                 int s = 0;
@@ -179,8 +269,14 @@ namespace Fb.MC.Views
                 {
                     if (r.Type.ToString().Equals("Flatbuilder.DTO.Kitchen"))
                         Kpicker.Add(++k);
+                    if (r.Type.ToString().Equals("Flatbuilder.DTO.Shower"))
+                        Spicker.Add(++s);
+                    if (r.Type.ToString().Equals("Flatbuilder.DTO.Bedroom"))
+                        Bpicker.Add(++b);
                 }
+                RaisePropertyChanged("Spicker");
                 RaisePropertyChanged("Kpicker");
+                RaisePropertyChanged("Bpicker");
             }
             ReCountPrice();
         }

@@ -17,14 +17,16 @@
                     <Label Text="Bedroom:"/>
                     <Picker 
                         x:Name="Bedrooms"
-                        Title="Num"/>
+                        Title="Pick Number"
+                        ItemsSource="{Binding Bpicker, Mode=OneWay}"
+                        SelectedItem="{Binding SelectedB, Mode=TwoWay}"/>
                 </StackLayout>
                 <StackLayout
                     Orientation="Vertical">
                     <Label Text="Kitchen:"/>
                     <Picker 
                         x:Name="Kitchens"
-                        Title="Num"
+                        Title="Pick Number"
                         ItemsSource="{Binding Kpicker, Mode=OneWay}"
                         SelectedItem="{Binding SelectedK, Mode=TwoWay}"/>
                 </StackLayout>
@@ -33,7 +35,9 @@
                     <Label Text="Shower:"/>
                     <Picker 
                         x:Name="Showers"
-                        Title="Num"/>
+                        Title="Pick Number"
+                        ItemsSource="{Binding Spicker, Mode=OneWay}"
+                        SelectedItem="{Binding SelectedS, Mode=TwoWay}"/>
                 </StackLayout>
             </StackLayout>
             <StackLayout

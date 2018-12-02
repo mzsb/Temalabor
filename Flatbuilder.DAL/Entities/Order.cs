@@ -12,6 +12,7 @@ namespace Flatbuilder.DAL.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Location { get; set; }
+        public double Price { get; set; }
         public ICollection<OrderRoom> OrderRooms { get; set; }
 
         public Order()
