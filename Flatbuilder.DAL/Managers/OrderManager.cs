@@ -113,13 +113,22 @@ namespace Flatbuilder.DAL.Managers
 
                 for (int i = 0; i < rooms.Count; i++)
                 {
+                    string type="";
                     foreach (var fr in freerooms)
-                        if (rooms[i].GetType().Equals(fr.GetType()))
+                    {
+                        if (fr.GetType().ToString().Equals("Flatbuilder.DAL.Entities.Kitchen"))
+                            type = "Flatbuilder.DTO.Kitchen";
+                        if (fr.GetType().ToString().Equals("Flatbuilder.DAL.Entities.Shower"))
+                            type = "Flatbuilder.DTO.Shower";
+                        if (fr.GetType().ToString().Equals("Flatbuilder.DAL.Entities.Bedroom"))
+                            type = "Flatbuilder.DTO.Bedroom";
+                        if (rooms[i].Type.ToString().Equals(type))
                         {
                             newors.Add(new OrderRoom { RoomId = fr.Id, Note = "megrendeles" });
                             freerooms.Remove(fr);
                             break;
                         }
+                    }
                     if (newors.Count != (i + 1))
                         return null;
                 }

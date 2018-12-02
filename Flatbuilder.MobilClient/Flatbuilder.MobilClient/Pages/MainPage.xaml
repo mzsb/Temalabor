@@ -9,7 +9,7 @@
     <ContentPage.Content>
         <StackLayout>
             <Label 
-                Text="{Binding UserName}"
+                Text="{Binding User.Name}"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
                 FontSize="Large">
