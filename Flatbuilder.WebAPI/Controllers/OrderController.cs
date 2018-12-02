@@ -72,8 +72,23 @@ namespace Flatbuilder.WebAPI.Controllers
             return Ok("Successful delete");
         }
 
+        [HttpGet("{start}/{end}")]
+        public async Task<IActionResult> GetFreeRoomsAsync(string start,string end)
+        {
+            var sd = DateTime.ParseExact(start, "MM-dd-yyyy",null);
+            var ed = DateTime.ParseExact(end, "MM-dd-yyyy", null);
+
+            var res = await _orderService.GetFreeRoomsAsync(sd, ed);
+            if (res == null)
+            {
+                return NotFound("No free Rooms");
+            }
+            var mapped = _mapper.Map<List<Room>>(res);
+            return Ok(mapped);
+        }
+
         [HttpPost("create")]
-        public async Task<IActionResult> CreateOrderAsync(Order o)
+        public async Task<IActionResult> CreateOrderAsync([FromBody]Order o)
         {
 
             var mappedorder = _mapper.Map<DAL.Entities.Order>(o);

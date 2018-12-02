@@ -64,6 +64,28 @@ namespace Flatbuilder.DAL.Managers
             await SaveChangesAsync();
         }
 
+        public async Task<List<Room>> GetFreeRoomsAsync(DateTime start, DateTime end)
+        {
+            if (end <= start)
+                return null;
+            var freerooms = await _context.Rooms
+                .Include(r => r.OrderRooms)
+                .Where(r => (!_context.OrderRooms.Select(or => or.RoomId).Contains(r.Id)) //meg nem foglalt szobak
+                   || (!(_context.OrderRooms  //szobak amik nincsenek zavaro foglalasok szobai kozt
+                            .Where(or => (_context.Orders
+                                .Where(o => (o.StartDate < end && o.EndDate > start)
+                                    || (o.EndDate > start && o.StartDate < end))
+                                .Select(o => o.Id))
+                            .Contains(or.OrderId))
+                            .Select(or => or.RoomId)).Contains(r.Id)))
+                .AsNoTracking()
+                .ToListAsync();
+
+            if (freerooms == null)
+                return null;
+            return freerooms;
+        }
+
         public async Task<Order> AddOrderAsync(Order order, List<Room> rooms)
         {
             if(order.EndDate <= order.StartDate)

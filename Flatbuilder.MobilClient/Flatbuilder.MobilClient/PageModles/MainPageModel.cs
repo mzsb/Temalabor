@@ -49,7 +49,7 @@ namespace Fb.MC.Views
             CreateOrderCommand = new Command(
             execute: async () =>
             {
-                await CoreMethods.PushPageModel<NewOrderPageModel>();
+                await CoreMethods.PushPageModel<NewOrderPageModel>(orders[0].CostumerId);
             }
             );
             DetailsCommand = new Command(
@@ -81,19 +81,6 @@ namespace Fb.MC.Views
             base.ViewIsAppearing(sender, e);
             Orders = await ListOrdersByName(UserName);
         }
-
-        public static async Task<List<Order>> ListOrders()
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                client.BaseAddress = baseAddress;
-
-                var response = await client.GetAsync("api/Order/list");
-                string json = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<Order>>(json);
-            }
-        }
-
 
         public static async Task<List<Order>> ListOrdersByName(String name)
         {
