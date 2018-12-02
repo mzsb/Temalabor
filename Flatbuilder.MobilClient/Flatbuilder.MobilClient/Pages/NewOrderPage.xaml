@@ -15,17 +15,25 @@
                 <StackLayout
                     Orientation="Vertical">
                     <Label Text="Bedroom:"/>
-                    <Picker x:Name="Bedrooms"/>
+                    <Picker 
+                        x:Name="Bedrooms"
+                        Title="Num"/>
                 </StackLayout>
                 <StackLayout
                     Orientation="Vertical">
                     <Label Text="Kitchen:"/>
-                    <Picker x:Name="Kitchens"/>
+                    <Picker 
+                        x:Name="Kitchens"
+                        Title="Num"
+                        ItemsSource="{Binding Kpicker, Mode=OneWay}"
+                        SelectedItem="{Binding SelectedK, Mode=TwoWay}"/>
                 </StackLayout>
                 <StackLayout
                     Orientation="Vertical">
                     <Label Text="Shower:"/>
-                    <Picker x:Name="Showers"/>
+                    <Picker 
+                        x:Name="Showers"
+                        Title="Num"/>
                 </StackLayout>
             </StackLayout>
             <StackLayout

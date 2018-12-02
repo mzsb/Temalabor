@@ -19,14 +19,50 @@ namespace Fb.MC.Views
         static readonly Uri baseAddress = new Uri("http://10.0.2.2:51502/");
 
         public ICommand CreateOrderCommand { get; }
+        private List<int>kpicker;
+        public List<int> Kpicker
+        {
+            get
+            {
+                return kpicker;
+            }
+            set
+            {
+                kpicker = value;
+                RaisePropertyChanged("Kpicker");
+            }
+        }
+        private int selectedK;
+        public int SelectedK
+        {
+            get
+            {
+                return selectedK;
+            }
+            set
+            {
+                for (int i = 0; i < selectedK; i++)
+                {
+                    Room room = rooms.Find(r => r.Type.ToString().Equals("Flatbuilder.DTO.Kitchen"));
+                    rooms.Remove(room);
+                    freeRooms.Add(room);
+                }
+                selectedK = value;
+                for (int i = 0; i < selectedK; i++)
+                {
+                    Room room = freeRooms.Find(r => r.Type.ToString().Equals("Flatbuilder.DTO.Kitchen"));
+                    rooms.Add(room);
+                    freeRooms.Remove(room);
+                }
+                RaisePropertyChanged("SelectedK");
+            }
+        }
 
-        public List<int> Kpicker { get; set; }
-        
 
         public List<int> Spicker { get; set; }
         public List<int> Bpicker { get; set; }
 
-        private DateTime startDate;
+        private DateTime startDate = DateTime.Now;
         public DateTime StartDate
         {
             get
@@ -36,11 +72,11 @@ namespace Fb.MC.Views
             set
             {
                 startDate = value;
-                OnPropertyChanged();
+                PropertyChangedOwn();
                 RaisePropertyChanged("StartDate");
             }
         }
-        private DateTime endDate;
+        private DateTime endDate = DateTime.Now.AddDays(5);
         public DateTime EndDate
         {
             get
@@ -50,7 +86,7 @@ namespace Fb.MC.Views
             set
             {
                 endDate = value;
-                OnPropertyChanged();
+                PropertyChangedOwn();
                 RaisePropertyChanged("EndDate");
             }
         }
@@ -68,14 +104,14 @@ namespace Fb.MC.Views
             }
         }
         private List<Room> freeRooms;
-        private List<Room> rooms;
+        private List<Room> rooms = new List<Room>();
 
         public NewOrderPageModel()
         {
             CreateOrderCommand = new Command(
                 execute: async () =>
                 {
-                    if(rooms==null || rooms.Count == 0)
+                    if (rooms==null || rooms.Count == 0)
                     {
                         return;
                     }
@@ -95,18 +131,20 @@ namespace Fb.MC.Views
                         StringContent cont = new StringContent(JsonConvert.SerializeObject(order), Encoding.UTF8, "application/json");
 
                         var response = await client.PostAsJsonAsync<Order>("api/Order/create",order);
+                        if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                        {
+                            var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainPageModel>(/*todo costumer*/));
+                            Application.Current.MainPage = navpage;
+                        }
                     }
                 }
                 );
         }
 
-        public override async void Init(object initData)
+        public override void Init(object initData)
         {
             base.Init(initData);
             UserId = (int)initData;
-            StartDate = DateTime.Now;
-            EndDate = StartDate.AddDays(5);
-            freeRooms = await GetRooms(StartDate, EndDate);
         }
 
         private async Task<List<Room>> GetRooms(DateTime start, DateTime end)
@@ -126,21 +164,48 @@ namespace Fb.MC.Views
             }
         }
 
-        protected async void OnPropertyChanged()
+        protected async void PropertyChangedOwn()
         {
+            SelectedK = 0;
             freeRooms = await GetRooms(StartDate, EndDate);
-            if (rooms==null || rooms.Count==0){
+            if(Kpicker==null)
+                Kpicker = new List<int>();
+            Kpicker.Clear();
+            Kpicker.Add(0);
+            if(freeRooms != null || freeRooms.Count != 0)
+            {
+                int k = 0;
+                int s = 0;
+                int b = 0;
+
+                foreach (Room r in freeRooms)
+                {
+                    if (r.Type.ToString().Equals("Flatbuilder.DTO.Kitchen"))
+                        Kpicker.Add(++k);
+                }
+                RaisePropertyChanged("Kpicker");
+            }
+            ReCountPrice();
+        }
+        public void ReCountPrice()
+        {
+            if (rooms == null || rooms.Count == 0)
+            {
                 Price = 0;
                 return;
             }
-           double pr=0;
-           double days = (EndDate - StartDate).TotalDays;
-
-            foreach (Room r in rooms)
+            else
             {
-                pr += r.Price * days;
+                double pr = 0;
+                double days = (EndDate - StartDate).TotalDays;
+
+                foreach (Room r in rooms)
+                {
+                    pr += r.Price * days;
+
+                }
+                Price = pr;
             }
-            Price = pr;
         }
     }
 }

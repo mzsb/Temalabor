@@ -85,6 +85,7 @@ namespace Flatbuilder.WebAPI.Controllers
                 return NotFound("No free Rooms");
             }
             var mapped = _mapper.Map<List<Room>>(res);
+            mapped.ForEach(r => r.Type = r.GetType());
             return Ok(mapped);
         }
 
