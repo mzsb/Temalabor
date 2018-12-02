@@ -61,13 +61,13 @@ namespace Flatbuilder.WebAPI.Controllers
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteOrderAsync(int id)
         {
-            var deleted = await _orderService.GetOrderByIdAsync(id);
-            if (deleted == null)
+            var toDelete = await _orderService.GetOrderByIdAsync(id);
+            if (toDelete == null)
             {
                 return NotFound("Order not found");
             }
 
-            await _orderService.DeleteOrderAsync(deleted);
+            await _orderService.DeleteOrderAsync(id);
 
             return Ok("Successful delete");
         }

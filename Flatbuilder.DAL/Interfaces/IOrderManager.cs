@@ -11,7 +11,7 @@ namespace Flatbuilder.DAL.Interfaces
         Task<List<Order>> GetOrdersAsync();
         Task<List<Order>> GetOrdersByNameAsync(string name);
         Task<Order> GetOrderByIdAsync(int id);
-        Task DeleteOrderAsync(Order o);
+        Task DeleteOrderAsync(int id);
         Task<Order> AddOrderAsync(Order order,List<Room> rooms);
         Task InsertAsync();
         Task SaveChangesAsync();

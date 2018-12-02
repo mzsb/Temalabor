@@ -55,9 +55,11 @@ namespace Flatbuilder.DAL.Managers
             return order;
         }
 
-        public async Task DeleteOrderAsync(Order o)
+        public async Task DeleteOrderAsync(int id)
         {
-            _context.Remove(o);
+            Order orderToDelete = await _context.Orders.Include(o => o.OrderRooms).FirstOrDefaultAsync(o => o.Id == id);
+            //csak igy torli a hozza tartozokat is
+            _context.Remove(orderToDelete);
 
             await SaveChangesAsync();
         }
@@ -130,7 +132,7 @@ namespace Flatbuilder.DAL.Managers
 
             _context.Add(new Order
             {
-                Costumer = new Costumer { Name = "nevem" },
+                //Costumer = new Costumer { Name = "nevem" },
                 StartDate = DateTime.Now.AddDays(-5),
                 EndDate = DateTime.Now.AddDays(1),
                 OrderRooms = new List<OrderRoom>
