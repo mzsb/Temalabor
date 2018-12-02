@@ -42,6 +42,7 @@ namespace Flatbuilder.WebAPI.Controllers
                 return NotFound();
             }
             var mapped = _mapper.Map<List<Order>>(res);
+            mapped.ForEach(o => o.Rooms.ForEach(or => or.Type = or.GetType()));
             return Ok(mapped);
         }
 

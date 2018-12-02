@@ -94,42 +94,5 @@ namespace Fb.MC.Views
                 return JsonConvert.DeserializeObject<List<Order>>(json);
             }
         }
-
-        //public static async Task<String> ListOrdersString()
-        //{
-        //    using (HttpClient client = new HttpClient())
-        //    {
-        //        client.BaseAddress = baseAddress;
-
-        //        try
-        //        {
-        //            var response = await client.GetAsync("api/Order/list");
-        //            return await response.Content.ReadAsStringAsync();
-        //        }
-        //        catch (Exception)
-        //        {
-
-        //            throw;
-        //        }
-        //    }
-        //}
-
-        //public static async Task<String> ListOrdersByNameString(String name)
-        //{
-        //    using (HttpClient client = new HttpClient())
-        //    {
-        //        client.BaseAddress = baseAddress;
-
-        //        try
-        //        {
-        //            var response = await client.GetAsync("api/Order/list/" + name);
-        //            return await response.Content.ReadAsStringAsync();
-        //        }
-        //        catch (Exception)
-        //        {
-        //            throw;
-        //        }
-        //    }
-        //}
     }
 }

@@ -34,10 +34,6 @@ namespace Fb.MC.Views
         {
             base.Init(initData);
             Order = (Order)initData;
-            foreach(Room r in Order.Rooms)
-            {
-                r.Type = r.GetType();
-            }
         }
         public DetailsPageModel()
         {
