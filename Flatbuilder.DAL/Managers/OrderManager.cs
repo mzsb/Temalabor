@@ -149,17 +149,24 @@ namespace Flatbuilder.DAL.Managers
 
         public async Task InsertAsync(/*Order order*/)
         {
-            var room = new Kitchen { Price = 400 };
+            var room = new Shower { Price = 200 };
             _context.Rooms.Add(room);
+            var room2 = new Bedroom { Price = 100 };
+            _context.Rooms.Add(room2);
+            var room3 = new Bedroom { Price = 100 };
+            _context.Rooms.Add(room3);
+
 
             _context.Add(new Order
             {
-                //Costumer = new Costumer { Name = "nevem" },
+                Costumer = new Costumer { Name = "nevem" },
                 StartDate = DateTime.Now.AddDays(-5),
                 EndDate = DateTime.Now.AddDays(1),
                 OrderRooms = new List<OrderRoom>
                 {
-                    new OrderRoom { Room = room, Note = "megrendeles" }
+                    new OrderRoom { Room = room, Note = "megrendeles" },
+                    new OrderRoom { Room = room2, Note = "megrendeles" },
+                    new OrderRoom { Room = room3, Note = "megrendeles "}
                 }
             });
 

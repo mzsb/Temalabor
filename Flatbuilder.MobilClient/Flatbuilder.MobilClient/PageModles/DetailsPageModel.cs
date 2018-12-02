@@ -52,7 +52,7 @@ namespace Fb.MC.Views
                 var response = await client.DeleteAsync("api/Order/delete/" + id);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
-                    var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainPageModel>(Order.Costumer.Name));
+                    var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainPageModel>(Order.Costumer));
                     Application.Current.MainPage = navpage;
                 }
             }

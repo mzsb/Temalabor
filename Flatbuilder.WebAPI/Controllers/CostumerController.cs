@@ -32,7 +32,7 @@ namespace Flatbuilder.WebAPI.Controllers
             return Ok(mapped);
         }
 
-        [HttpGet("get/{id}", Name = "GetCostumerById")]
+        [HttpGet("{id}", Name = "GetCostumerById")]
         [Produces(typeof(Costumer))]
         public async Task<IActionResult> GetCostumerByIdAsync(int id)
         {
@@ -61,7 +61,7 @@ namespace Flatbuilder.WebAPI.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateCostumerAsync(Costumer c)
+        public async Task<IActionResult> CreateCostumerAsync([FromBody]Costumer c)
         {
             var mapped = _mapper.Map<DAL.Entities.Costumer>(c);
 

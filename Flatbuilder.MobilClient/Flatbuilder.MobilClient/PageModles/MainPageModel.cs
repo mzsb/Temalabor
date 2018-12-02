@@ -21,10 +21,10 @@ namespace Fb.MC.Views
 
         public Order Selected { get; set; }
 
-        private string userName;
-        public string UserName { get { return userName; } private set {
-                userName = value;
-                RaisePropertyChanged("UserName");
+        private Costumer user;
+        public Costumer User { get { return user; } private set {
+                user = value;
+                RaisePropertyChanged("User");
             } }
 
         private List<Order> orders;
@@ -49,7 +49,7 @@ namespace Fb.MC.Views
             CreateOrderCommand = new Command(
             execute: async () =>
             {
-                await CoreMethods.PushPageModel<NewOrderPageModel>(orders[0].CostumerId);
+                await CoreMethods.PushPageModel<NewOrderPageModel>(User);
             }
             );
             DetailsCommand = new Command(
@@ -73,13 +73,13 @@ namespace Fb.MC.Views
         public override void Init(object initData)
         {
             base.Init(initData);
-            UserName = initData.ToString();
+            User = (Costumer)initData;
         }
 
         protected override async void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
-            Orders = await ListOrdersByName(UserName);
+            Orders = await ListOrdersByName(User.Name);
         }
 
         public static async Task<List<Order>> ListOrdersByName(String name)

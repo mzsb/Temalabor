@@ -1,4 +1,5 @@
-﻿using Fb.MC.Views;
+﻿using AspNetCore.Http.Extensions;
+using Fb.MC.Views;
 using Flatbuilder.DTO;
 using FreshMvvm;
 using Newtonsoft.Json;
@@ -15,7 +16,8 @@ namespace Fb.MC.Views
 {
     public class LoginPageModel : FreshBasePageModel
     {
-        //public event PropertyChangedEventHandler PropertyChanged;
+        static readonly Uri baseAddress = new Uri("http://10.0.2.2:51502/");
+
         public ICommand LoginCommand { private set; get; }
         private string userName;
         public string UserName
@@ -35,9 +37,31 @@ namespace Fb.MC.Views
         public LoginPageModel()
         {
             LoginCommand = new Command(
-               execute: () =>
+               execute: async () =>
                 {
-                    var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainPageModel>(UserName));
+                    Costumer costumer;
+                    using (HttpClient client = new HttpClient())
+                    {
+                        client.BaseAddress = baseAddress;
+
+
+                        var response = await client.GetAsync("api/Costumer/get/" + UserName);
+                        if(response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                        {
+                            costumer = new Costumer() { Name = UserName };
+                            var res = await client.PostAsJsonAsync<Costumer>("api/Costumer/create", costumer);
+                            if(res.StatusCode != System.Net.HttpStatusCode.Created)
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            string json = await response.Content.ReadAsStringAsync();
+                            costumer = JsonConvert.DeserializeObject<Costumer>(json);
+                        }
+                    }
+                    var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainPageModel>(costumer));
                     Application.Current.MainPage = navpage;
                 },
                canExecute:() => 

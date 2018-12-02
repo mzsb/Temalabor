@@ -15,7 +15,7 @@ namespace Fb.MC.Views
 {
     class NewOrderPageModel : FreshBasePageModel
     {
-        public int UserId{ get; set; }
+        public Costumer User{ get; set; }
         static readonly Uri baseAddress = new Uri("http://10.0.2.2:51502/");
 
         public ICommand CreateOrderCommand { get; }
@@ -117,7 +117,7 @@ namespace Fb.MC.Views
                     }
                     var order = new Order()
                     {
-                        CostumerId = UserId,
+                        Costumer = User,
                         StartDate = this.StartDate,
                         EndDate = this.EndDate,
                         Rooms = rooms
@@ -127,13 +127,10 @@ namespace Fb.MC.Views
                     {
                         client.BaseAddress = baseAddress;
 
-                        var orderJson = JsonConvert.SerializeObject(order);
-                        StringContent cont = new StringContent(JsonConvert.SerializeObject(order), Encoding.UTF8, "application/json");
-
                         var response = await client.PostAsJsonAsync<Order>("api/Order/create",order);
                         if (response.StatusCode == System.Net.HttpStatusCode.Created)
                         {
-                            var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainPageModel>(/*todo costumer*/));
+                            var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainPageModel>(User));
                             Application.Current.MainPage = navpage;
                         }
                     }
@@ -144,7 +141,7 @@ namespace Fb.MC.Views
         public override void Init(object initData)
         {
             base.Init(initData);
-            UserId = (int)initData;
+            User = (Costumer)initData;
         }
 
         private async Task<List<Room>> GetRooms(DateTime start, DateTime end)
