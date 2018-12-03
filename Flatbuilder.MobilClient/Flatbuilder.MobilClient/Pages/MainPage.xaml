@@ -7,9 +7,11 @@
              x:Class="Fb.MC.Views.MainPage"
              x:Name="Page">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout
+            Padding="5,15,0,5">
             <Label 
-                Text="{Binding User.Name}"
+                FontAttributes="Bold"
+                Text="{Binding User.Name, StringFormat='User: {0}'}"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
                 FontSize="Large">
@@ -18,10 +20,14 @@
                 Text="Create Order"
                 HorizontalOptions="End"
                 Command="{Binding CreateOrderCommand}"/>
+            <Label
+                Text="Active Orders:"
+                FontAttributes="Bold"
+                FontSize="Medium"/>
             <ListView 
                 ItemsSource="{Binding Orders}"
                 HasUnevenRows="True"
-                SelectedItem="{Binding Selected}">
+                SelectedItem="{Binding Selected}" SeparatorVisibility="Default">
                 <ListView.Behaviors>
                     <b:EventHandlerBehavior EventName="ItemSelected">
                         <b:InvokeCommandAction Command="{Binding DetailsCommand}"/>
@@ -31,18 +37,37 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout >
-                                <Label
-                                    Text="{Binding Id, StringFormat='Id: {0}'}"/>
+                            <StackLayout
+                                Padding="0,5,0,5">
                                 <StackLayout
                                     Orientation="Horizontal">
                                     <Label
-                                        Text="{Binding StartDate, StringFormat='Start: {0}'}"/>
+                                        Text="Id: "
+                                        FontAttributes="Bold"/>
                                     <Label
-                                        Text="{Binding EndDate, StringFormat='End: {0}'}"/>
+                                        Text="{Binding Id}"/>
                                 </StackLayout>
-                                <Label
-                                    Text="{Binding Location, StringFormat='Location: {0}'}"/>
+                                <StackLayout
+                                    Orientation="Horizontal">
+                                    <Label
+                                        Text="Start: "
+                                        FontAttributes="Bold"/>
+                                    <Label
+                                        Text="{Binding StartDate}"/>
+                                    <Label
+                                        Text="End: "
+                                        FontAttributes="Bold"/>
+                                    <Label
+                                        Text="{Binding EndDate}"/>
+                                </StackLayout>
+                                <StackLayout
+                                    Orientation="Horizontal">
+                                    <Label
+                                        Text="Location: "
+                                        FontAttributes="Bold"/>
+                                    <Label
+                                        Text="{Binding Location}"/>
+                                </StackLayout>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

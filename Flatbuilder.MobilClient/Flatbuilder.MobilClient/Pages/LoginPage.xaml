@@ -18,13 +18,18 @@
                 Text="Please log in!"  
                 HorizontalOptions="Center" 
                 VerticalOptions="Center"
-                FontSize="Large"/>
-            <Entry 
+                FontSize="Large"
+                FontAttributes="Bold"/>
+            <Editor 
+                HeightRequest="50"
+                AutoSize="TextChanges"
                 HorizontalOptions="Center" 
                 VerticalOptions="Center"  
                 Placeholder="Name"
                 Text="{Binding UserName}"/>
-            <Entry 
+            <Editor 
+                AutoSize="TextChanges"
+                HeightRequest="50"
                 HorizontalOptions="Center" 
                 VerticalOptions="Center"  
                 Placeholder="Password"

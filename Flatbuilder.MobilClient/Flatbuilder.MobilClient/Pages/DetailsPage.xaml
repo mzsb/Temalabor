@@ -4,36 +4,85 @@
              x:Class="Fb.MC.Views.DetailsPage"
              x:Name="Page">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout
+            Padding="5,15,0,5">
             <Button
                 Command="{Binding DeleteOrderCommand}"
                 Text="Delete"
-                VerticalOptions="End"/>
+                HorizontalOptions="End"/>
             <StackLayout
                 Orientation="Horizontal">
+                <Label
+                    Text="Id: "
+                    FontAttributes="Bold"/>
                 <Label 
-                Text="{Binding Order.Id, StringFormat='Id: {0}'}" />
+                    Text="{Binding Order.Id}"
+                    Margin="0,0,5,0"/>
+                <Label
+                    Text="Price: "
+                    FontAttributes="Bold"/>
                 <Label 
-                Text="{Binding Order.Price, StringFormat='Overall Price: {0}'}" />
+                    Text="{Binding Order.Price}" />
+            </StackLayout>
+            <StackLayout
+                Orientation="Horizontal"
+                Padding="0,0,0,5">
+                <Label
+                    Text="Starting date: "
+                    FontAttributes="Bold"/>
+                <Label 
+                    Text="{Binding Order.StartDate}"/>
+            </StackLayout>
+            <StackLayout
+                Orientation="Horizontal"
+                Padding="0,0,0,5">
+                <Label
+                    Text="Ending date: "
+                    FontAttributes="Bold"/>
+                <Label 
+                    Text="{Binding Order.EndDate}"/>
+            </StackLayout>
+            <StackLayout
+                Orientation="Horizontal"
+                Padding="0,0,0,5">
+                <Label
+                    Text="Location: "
+                    FontAttributes="Bold"/>
+                <Label 
+                    Text="{Binding Order.Location}"/>
             </StackLayout>
             <Label 
-                Text="{Binding Order.StartDate, StringFormat='Starting date: {0}'}"/>
-            <Label 
-                Text="{Binding Order.EndDate, StringFormat='Ending date: {0}'}"/>
-            <Label 
-                Text="{Binding Order.Location, StringFormat='Location: {0}'}"/>
-            <Label Text="Rooms:"/>
+                Text="Rooms:"
+                FontAttributes="Bold"/>
             <ListView
+                
                 ItemsSource="{Binding Order.Rooms}"
                 HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
-                            <StackLayout>
-                                <Label
+                        <ViewCell
+                            x:Name="vc">
+                            <StackLayout
+                                Padding="0,5,0,5">
+                                <!--<StackLayout
+                                    BindingContext="{Binding x:Reference vc}"
+                                    Orientation="Horizontal">
+                                    <Label
+                                        Text="Type: "
+                                        FontAttributes="Bold"/>
+                                    <Label
+                                        Text="{Binding Type}"/>
+                                </StackLayout>-->
+                                <Label 
                                     Text="{Binding Type, StringFormat='Type: {0}'}"/>
-                                <Label
-                                    Text="{Binding Price, StringFormat='Price: {0}'}"/>
+                                <StackLayout
+                                    Orientation="Horizontal">
+                                    <Label
+                                        Text="Price: "
+                                        FontAttributes="Bold"/>
+                                    <Label
+                                        Text="{Binding Price}"/>
+                                </StackLayout>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
