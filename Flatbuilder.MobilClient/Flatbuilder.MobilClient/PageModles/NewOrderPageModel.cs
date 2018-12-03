@@ -152,7 +152,7 @@ namespace Fb.MC.Views
                 RaisePropertyChanged("MinDateStart");
             }
         }
-        private DateTime maxDateStart;
+        private DateTime maxDateStart = DateTime.Now.AddDays(5);
         public DateTime MaxDateStart
         {
             get
@@ -174,10 +174,17 @@ namespace Fb.MC.Views
             }
             set
             {
-                if (EndDate < value)
-                    startDate = EndDate.AddDays(-1);
-                else
+                if (EndDate < DateTime.Now)
+                {
                     startDate = value;
+                }
+                else
+                {
+                    if (EndDate < value)
+                        startDate = EndDate.AddDays(-1);
+                    else
+                        startDate = value;
+                }
                 MinDateEnd = startDate.AddDays(1);
                 PropertyChangedOwn();
                 RaisePropertyChanged("StartDate");
