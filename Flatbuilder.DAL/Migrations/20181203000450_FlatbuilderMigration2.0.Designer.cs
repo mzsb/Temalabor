@@ -4,14 +4,16 @@ using Flatbuilder.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Flatbuilder.DAL.Migrations
 {
     [DbContext(typeof(FlatbuilderContext))]
-    partial class FlatbuilderContextModelSnapshot : ModelSnapshot
+    [Migration("20181203000450_FlatbuilderMigration2.0")]
+    partial class FlatbuilderMigration20
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

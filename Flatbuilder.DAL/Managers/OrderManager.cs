@@ -143,7 +143,8 @@ namespace Flatbuilder.DAL.Managers
                     CostumerId = costmerid,
                     StartDate = order.StartDate,
                     EndDate = order.EndDate,
-                    OrderRooms = newors
+                    OrderRooms = newors,
+                    Price = order.Price
                 };
 
                 await _context.AddAsync(newo);
@@ -176,7 +177,8 @@ namespace Flatbuilder.DAL.Managers
                     new OrderRoom { Room = room, Note = "megrendeles" },
                     new OrderRoom { Room = room2, Note = "megrendeles" },
                     new OrderRoom { Room = room3, Note = "megrendeles "}
-                }
+                },
+                Price = (room.Price + room2.Price + room3.Price) * 6
             });
 
             await _context.SaveChangesAsync();

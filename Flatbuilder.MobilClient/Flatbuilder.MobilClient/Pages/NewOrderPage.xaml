@@ -7,9 +7,12 @@
             <Label Text="Starting Date: "/>
             <DatePicker 
                 Date="{Binding StartDate}"
-                />
+                MinimumDate="{Binding MinDateStart}"
+                MaximumDate="{Binding MaxDateStart}"/>
             <Label Text="Ending Date: "/>
-            <DatePicker Date="{Binding EndDate}"/>
+            <DatePicker 
+                Date="{Binding EndDate}"
+                MinimumDate="{Binding MinDateEnd}"/>
             <Label Text="Available Rooms: "/>
             <StackLayout Orientation="Horizontal">
                 <StackLayout

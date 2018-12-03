@@ -9,8 +9,13 @@
                 Command="{Binding DeleteOrderCommand}"
                 Text="Delete"
                 VerticalOptions="End"/>
-            <Label 
+            <StackLayout
+                Orientation="Horizontal">
+                <Label 
                 Text="{Binding Order.Id, StringFormat='Id: {0}'}" />
+                <Label 
+                Text="{Binding Order.Price, StringFormat='Overall Price: {0}'}" />
+            </StackLayout>
             <Label 
                 Text="{Binding Order.StartDate, StringFormat='Starting date: {0}'}"/>
             <Label 

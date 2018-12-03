@@ -139,7 +139,32 @@ namespace Fb.MC.Views
                 ReCountPrice();
             }
         }
-
+        private DateTime minDateStart = DateTime.Now;
+        public DateTime MinDateStart
+        {
+            get
+            {
+                return minDateStart;
+            }
+            set
+            {
+                minDateStart = value;
+                RaisePropertyChanged("MinDateStart");
+            }
+        }
+        private DateTime maxDateStart;
+        public DateTime MaxDateStart
+        {
+            get
+            {
+                return maxDateStart;
+            }
+            set
+            {
+                maxDateStart = value;
+                RaisePropertyChanged("MaxDateStart");
+            }
+        }
         private DateTime startDate = DateTime.Now;
         public DateTime StartDate
         {
@@ -149,10 +174,28 @@ namespace Fb.MC.Views
             }
             set
             {
-                startDate = value;
+                if (EndDate < value)
+                    startDate = EndDate.AddDays(-1);
+                else
+                    startDate = value;
+                MinDateEnd = startDate.AddDays(1);
                 PropertyChangedOwn();
                 RaisePropertyChanged("StartDate");
             }
+        }
+        private DateTime minDateEnd;
+        public DateTime MinDateEnd
+        {
+            get
+            {
+                return minDateEnd;
+            }
+            set
+            {
+                minDateEnd = value;
+                RaisePropertyChanged("MinDateEnd");
+            }
+            
         }
         private DateTime endDate = DateTime.Now.AddDays(5);
         public DateTime EndDate
@@ -163,7 +206,11 @@ namespace Fb.MC.Views
             }
             set
             {
-                endDate = value;
+                if (StartDate > value)
+                    endDate = StartDate.AddDays(1);
+                else
+                    endDate = value;
+                MaxDateStart = endDate.AddDays(-1);
                 PropertyChangedOwn();
                 RaisePropertyChanged("EndDate");
             }
