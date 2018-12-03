@@ -19,7 +19,8 @@
             <DatePicker 
                 Date="{Binding EndDate}"
                 MinimumDate="{Binding MinDateEnd}"
-                HorizontalOptions="Start"/>
+                HorizontalOptions="Start"
+                />
             <Label 
                 Text="Available Rooms: "
                 FontAttributes="Bold"/>
