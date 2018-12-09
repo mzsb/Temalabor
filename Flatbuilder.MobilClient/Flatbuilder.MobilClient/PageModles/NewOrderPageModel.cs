@@ -245,6 +245,7 @@ namespace Fb.MC.Views
                 {
                     if (rooms==null || rooms.Count == 0)
                     {
+                        await Application.Current.MainPage.DisplayAlert("No Rooms selected", "Please select at least one room!", "Ok");
                         return;
                     }
                     var order = new Order()
