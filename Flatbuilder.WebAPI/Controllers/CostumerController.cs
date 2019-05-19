@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Flatbuilder.WebAPI.Controllers
 {
-    [Route("api/Costumer")]
+    [Route("api/Customer")]
     //[ApiController]
     public class CostumerController : Controller
     {

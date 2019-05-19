@@ -42,7 +42,7 @@ namespace Flatbuilder.WebAPI.Controllers
                 return NotFound();
             }
             var mapped = _mapper.Map<List<Order>>(res);
-            mapped.ForEach(o => o.Rooms.ForEach(or => or.Type = or.GetType()));
+            mapped.ForEach(o => o.Rooms.ForEach(or => or.Type = or.Type));
             return Ok(mapped);
         }
 
@@ -85,7 +85,7 @@ namespace Flatbuilder.WebAPI.Controllers
                 return NotFound("No free Rooms");
             }
             var mapped = _mapper.Map<List<Room>>(res);
-            mapped.ForEach(r => r.Type = r.GetType());
+            mapped.ForEach(r => r.Type = r.Type);
             return Ok(mapped);
         }
 

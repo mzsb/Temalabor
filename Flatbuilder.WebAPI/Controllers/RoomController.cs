@@ -67,7 +67,7 @@ namespace Flatbuilder.WebAPI.Controllers
         }
 
         [HttpPost("create/shower")]
-        public async Task<IActionResult> CreateShowerAsync(Shower s)
+        public async Task<IActionResult> CreateShowerAsync([FromBody] Room s)
         {
             var mapped = _mapper.Map<DAL.Entities.Shower>(s);
 
@@ -77,10 +77,10 @@ namespace Flatbuilder.WebAPI.Controllers
         }
 
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> UpdateRoomAsync(int id, Room item)
+        public async Task<IActionResult> UpdateRoomAsync([FromRoute] int id,[FromBody] Room item)
         {
             var mapped = _mapper.Map<DAL.Entities.Room>(item);
-
+            
             if(await _roomService.UpdateRoomAsync(id, mapped) == null)
             {
                 return NotFound("Room not found");

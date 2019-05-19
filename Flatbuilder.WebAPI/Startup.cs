@@ -30,6 +30,7 @@ namespace Flatbuilder.WebAPI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             //ha van a db-ben many-to-many ne hivatkozzon korkorosen a json converter
             services.AddMvc().AddJsonOptions(
                json => json.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
@@ -44,6 +45,7 @@ namespace Flatbuilder.WebAPI
             services.AddSwaggerGen(c =>
                {
                    c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                   
                });
         }
 
@@ -54,7 +56,9 @@ namespace Flatbuilder.WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors(
+                options => options.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()
+                );
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSwagger();
