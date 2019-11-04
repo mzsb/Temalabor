@@ -1,4 +1,6 @@
 ﻿using Flatbuilder.DAL.Entities;
+using Flatbuilder.DAL.Entities.Authentication;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
@@ -12,7 +14,7 @@ namespace Flatbuilder.DAL.Context
     //add-migration <nev> ha valamit valtoztatni kell a strukturan
     //update-database hogy a jelenlegit lehuzzatok a sajat gepetekre
     //View-->Sql Server Object Explorer ebben kell lenni valahol ha sikerult az update
-    public class FlatbuilderContext : DbContext
+    public class FlatbuilderContext : IdentityDbContext<ApplicationUser>
     {
         
         public DbSet<Room> Rooms { get; set; }

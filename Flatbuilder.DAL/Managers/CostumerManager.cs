@@ -45,6 +45,8 @@ namespace Flatbuilder.DAL.Managers
         {
             var costumers = await _context.Costumers
                 .AsNoTracking()
+                .Include(c => c.Orders)
+                .ThenInclude(co=>co.OrderRooms).ThenInclude(cor=>cor.Room)
                 .ToListAsync();
             return costumers;
         }

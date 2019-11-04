@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Flatbuilder.DAL.Context;
+using Flatbuilder.DAL.Entities.Authentication;
 using Flatbuilder.DAL.Interfaces;
 using Flatbuilder.DAL.Managers;
 using Flatbuilder.WebAPI.Mapping;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,6 +44,10 @@ namespace Flatbuilder.WebAPI
             services.AddTransient<IRoomManager, RoomManager>();
             services.AddTransient<ICostumerManager, CostumerManager>();
 
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                      .AddEntityFrameworkStores<FlatbuilderContext>()
+                      .AddDefaultTokenProviders();
+
             services.AddSwaggerGen(c =>
                {
                    c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
@@ -61,6 +67,7 @@ namespace Flatbuilder.WebAPI
                 );
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
