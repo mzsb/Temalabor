@@ -33,6 +33,11 @@ namespace Flatbuilder.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+            services.AddHttpsRedirection(options =>
+            {
+                options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+                options.HttpsPort = 5001;
+            });
             //ha van a db-ben many-to-many ne hivatkozzon korkorosen a json converter
             services.AddMvc().AddJsonOptions(
                json => json.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
@@ -79,8 +84,10 @@ namespace Flatbuilder.WebAPI
                 app.UseDeveloperExceptionPage();
             }
             app.UseCors(
-                options => options.WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()
+                options => options.WithOrigins("http://localhost:3000/").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()
                 );
+            app.UseHttpsRedirection();
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseAuthentication();

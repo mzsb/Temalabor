@@ -31,22 +31,43 @@ namespace Flatbuilder.WebAPI.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
         }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody]LoginDto loginInfo)
+        {
+            var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email };
+            var login = await _userManager.CreateAsync(user, loginInfo.Password);
+
+            if (login.Succeeded)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(login.Errors);
+            }
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]LoginDto loginInfo)
         {
             //var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email };
             //var login = await _userManager.CreateAsync(user, loginInfo.Password);
             var user = await _userManager.FindByNameAsync(loginInfo.Email);
-            var result = await _signInManager.PasswordSignInAsync(user,loginInfo.Password,false,false);
+            if (user != null)
+            {
+                var result = await _signInManager.PasswordSignInAsync(user, loginInfo.Password, false, false);
 
-            if (result.Succeeded)
-            {
-                return Ok(user.Id);
+                if (result.Succeeded)
+                {
+                    return Ok(user.Id);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-            else
-            {
-                return BadRequest();
-            }
+            return BadRequest();
         }
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()

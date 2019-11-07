@@ -1,4 +1,5 @@
-﻿using Flatbuilder.DTO;
+﻿using Fb.MC.Certificate;
+using Flatbuilder.DTO;
 using FreshMvvm;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace Fb.MC.Views
 {
     class DetailsPageModel : FreshBasePageModel
     {
-        static readonly Uri baseAddress = new Uri("http://10.0.2.2:51502/");
+        static readonly Uri baseAddress = new Uri("https://10.0.2.2:5001/");
 
         private Order order;
         public Order Order
@@ -46,10 +47,21 @@ namespace Fb.MC.Views
 
         private async Task DeleteOrder(int id)
         {
-            using (HttpClient client = new HttpClient())
+            HttpClient httpClient;
+            switch (Device.RuntimePlatform)
             {
-                client.BaseAddress = baseAddress;
-                var response = await client.DeleteAsync("api/Order/delete/" + id);
+                case Device.Android:
+                    httpClient = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
+                    break;
+                default:
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+                    httpClient = new HttpClient(new HttpClientHandler());
+                    break;
+            }
+            using (httpClient)
+            {
+                httpClient.BaseAddress = baseAddress;
+                var response = await httpClient.DeleteAsync("api/Order/delete/" + id);
                 if(response.StatusCode == HttpStatusCode.OK)
                 {
                     var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainPageModel>(Order.Costumer));

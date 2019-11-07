@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using AspNetCore.Http.Extensions;
+using Fb.MC.Certificate;
 using Flatbuilder.DTO;
 using FreshMvvm;
 using Newtonsoft.Json;
@@ -17,7 +19,7 @@ namespace Fb.MC.Views
     class NewOrderPageModel : FreshBasePageModel
     {
         public Costumer User{ get; set; }
-        static readonly Uri baseAddress = new Uri("http://10.0.2.2:51502/");
+        static readonly Uri baseAddress = new Uri("https://10.0.2.2:5001/");
 
         public ICommand CreateOrderCommand { get; }
         private ObservableCollection<int>kpicker;
@@ -257,11 +259,22 @@ namespace Fb.MC.Views
                         Price = this.Price
                     };
 
-                    using (HttpClient client = new HttpClient())
+                    HttpClient httpClient;
+                    switch (Device.RuntimePlatform)
                     {
-                        client.BaseAddress = baseAddress;
+                        case Device.Android:
+                            httpClient = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
+                            break;
+                        default:
+                            ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+                            httpClient = new HttpClient(new HttpClientHandler());
+                            break;
+                    }
+                    using (httpClient)
+                    {
+                        httpClient.BaseAddress = baseAddress;
 
-                        var response = await client.PostAsJsonAsync<Order>("api/Order/create",order);
+                        var response = await httpClient.PostAsJsonAsync<Order>("api/Order/create",order);
                         if (response.StatusCode == System.Net.HttpStatusCode.Created)
                         {
                             var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainPageModel>(User));
@@ -283,11 +296,22 @@ namespace Fb.MC.Views
             var sd = start.ToString("MM-dd-yyyy");
             var ed = end.ToString("MM-dd-yyyy");
 
-            using (HttpClient client = new HttpClient())
+            HttpClient httpClient;
+            switch (Device.RuntimePlatform)
             {
-                client.BaseAddress = baseAddress;
+                case Device.Android:
+                    httpClient = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
+                    break;
+                default:
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+                    httpClient = new HttpClient(new HttpClientHandler());
+                    break;
+            }
+            using (httpClient)
+            {
+                httpClient.BaseAddress = baseAddress;
 
-                var response = await client.GetAsync("api/Order/" + sd + "/" + ed);
+                var response = await httpClient.GetAsync("api/Order/" + sd + "/" + ed);
                 if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                     return null;
                 string json = await response.Content.ReadAsStringAsync();

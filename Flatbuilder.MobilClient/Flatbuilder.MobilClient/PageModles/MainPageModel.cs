@@ -1,10 +1,12 @@
-﻿using Fb.MC.Views;
+﻿using Fb.MC.Certificate;
+using Fb.MC.Views;
 using Flatbuilder.DTO;
 using FreshMvvm;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +19,7 @@ namespace Fb.MC.Views
     {
         //public event PropertyChangedEventHandler PropertyChanged;
 
-        static readonly Uri baseAddress = new Uri("http://10.0.2.2:51502/");
+        static readonly Uri baseAddress = new Uri("https://10.0.2.2:5001/");
 
         public Order Selected { get; set; }
 
@@ -84,12 +86,23 @@ namespace Fb.MC.Views
 
         public static async Task<List<Order>> ListOrdersByName(String name)
         {
-            using (HttpClient client = new HttpClient())
+            HttpClient httpClient;
+            switch (Device.RuntimePlatform)
             {
-                client.BaseAddress = baseAddress;
+                case Device.Android:
+                    httpClient = new HttpClient(DependencyService.Get<IHTTPClientHandlerCreationService>().GetInsecureHandler());
+                    break;
+                default:
+                    ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+                    httpClient = new HttpClient(new HttpClientHandler());
+                    break;
+            }
+            using (httpClient)
+            {
+                httpClient.BaseAddress = baseAddress;
 
            
-                var response = await client.GetAsync("api/Order/list/" + name);
+                var response = await httpClient.GetAsync("api/Order/list/" + name);
                 string json = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<Order>>(json);
             }
