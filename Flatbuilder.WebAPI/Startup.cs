@@ -44,6 +44,22 @@ namespace Flatbuilder.WebAPI
             services.AddTransient<IRoomManager, RoomManager>();
             services.AddTransient<ICostumerManager, CostumerManager>();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 1;
+                options.Password.RequiredUniqueChars = 0;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                       .AddEntityFrameworkStores<FlatbuilderContext>()
                       .AddDefaultTokenProviders();

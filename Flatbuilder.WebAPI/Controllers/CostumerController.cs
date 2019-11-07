@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Flatbuilder.DAL.Entities.Authentication;
 using Flatbuilder.DAL.Interfaces;
 using Flatbuilder.DTO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Flatbuilder.WebAPI.Controllers
@@ -16,11 +18,41 @@ namespace Flatbuilder.WebAPI.Controllers
     {
         private readonly ICostumerManager _costumerService;
         IMapper _mapper;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CostumerController(ICostumerManager roomService, IMapper mapper)
+        public CostumerController(ICostumerManager roomService,
+                                  IMapper mapper,
+                                  SignInManager<ApplicationUser> signInManager,
+                                  UserManager<ApplicationUser> userManager)
         {
             _costumerService = roomService;
             _mapper = mapper;
+            _signInManager = signInManager;
+            _userManager = userManager;
+        }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody]LoginDto loginInfo)
+        {
+            //var user = new ApplicationUser { UserName = loginInfo.Email, Email = loginInfo.Email };
+            //var login = await _userManager.CreateAsync(user, loginInfo.Password);
+            var user = await _userManager.FindByNameAsync(loginInfo.Email);
+            var result = await _signInManager.PasswordSignInAsync(user,loginInfo.Password,false,false);
+
+            if (result.Succeeded)
+            {
+                return Ok(user.Id);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok();
         }
 
         [HttpGet("list")]
