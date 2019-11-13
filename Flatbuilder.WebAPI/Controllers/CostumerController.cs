@@ -99,6 +99,26 @@ namespace Flatbuilder.WebAPI.Controllers
             return Ok(mapped);
         }
 
+        [HttpPost("customerLogin")]
+        [Produces(typeof(Costumer))]
+        public async Task<IActionResult> loginCustomer([FromBody] Costumer customer)
+        {
+            var mapped = _mapper.Map<DAL.Entities.Costumer>(customer);
+
+            var c = await _costumerService.GetCostumerByNameAsync(customer.Name);
+
+            PasswordHasher<DAL.Entities.Costumer> passwordHasher = new PasswordHasher<DAL.Entities.Costumer>();
+            var result = passwordHasher.VerifyHashedPassword(mapped,c.Password,mapped.Password);
+
+            if(result != PasswordVerificationResult.Failed){
+                return Ok(c);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("get/{name}", Name = "GetCostumerByName")]
         [Produces(typeof(Costumer))]
         public async Task<IActionResult> GetCostumerByNameAsync(string name)
@@ -117,6 +137,11 @@ namespace Flatbuilder.WebAPI.Controllers
         public async Task<IActionResult> CreateCostumerAsync([FromBody]Costumer c)
         {
             var mapped = _mapper.Map<DAL.Entities.Costumer>(c);
+
+            PasswordHasher<DAL.Entities.Costumer> passwordHasher = new PasswordHasher<DAL.Entities.Costumer>();
+            var hashed = passwordHasher.HashPassword(mapped, mapped.Password);
+
+            mapped.Password = hashed;
 
             await _costumerService.AddCostumerAsync(mapped);
 

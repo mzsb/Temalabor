@@ -1,27 +1,23 @@
 ﻿using AspNetCore.Http.Extensions;
 using Fb.MC.Certificate;
-using Fb.MC.Views;
 using Flatbuilder.DTO;
 using FreshMvvm;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Net;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace Fb.MC.Views
 {
-    public class LoginPageModel : FreshBasePageModel
+    class CreateCustomerPageModel : FreshBasePageModel
     {
         static readonly Uri baseAddress = new Uri("https://10.0.2.2:5001/");
 
-        public ICommand LoginCommand { private set; get; }
         public ICommand CreateCommand { private set; get; }
+        public ICommand LoginCommand { private set; get; }
         private string userName;
         public string UserName
         {
@@ -33,7 +29,7 @@ namespace Fb.MC.Views
             {
                 userName = value;
                 RaisePropertyChanged("userName");
-                ((Command)LoginCommand).ChangeCanExecute();
+                ((Command)CreateCommand).ChangeCanExecute();
                 // PropertyChanged(this, new PropertyChangedEventArgs("username")); 
             }
         }
@@ -48,38 +44,51 @@ namespace Fb.MC.Views
             {
                 password = value;
                 RaisePropertyChanged("password");
-                ((Command)LoginCommand).ChangeCanExecute();
+                ((Command)CreateCommand).ChangeCanExecute();
                 // PropertyChanged(this, new PropertyChangedEventArgs("username")); 
             }
         }
-        
-        private bool error = false;
-        public bool Error
+        private string repeatPassword;
+        public string RepeatPassword
         {
             get
             {
-                return error;
+                return repeatPassword;
             }
             set
             {
-                error = value;
-                RaisePropertyChanged("error");
-                RaisePropertyChanged("Error");
+                repeatPassword = value;
+                RaisePropertyChanged("repeatPassword");
+                ((Command)CreateCommand).ChangeCanExecute();
+                // PropertyChanged(this, new PropertyChangedEventArgs("username")); 
             }
         }
-        public LoginPageModel()
+        private string email;
+        public string Email
         {
+            get
+            {
+                return email;
+            }
+            set
+            {
+                email = value;
+                RaisePropertyChanged("email");
+                ((Command)CreateCommand).ChangeCanExecute();
+                // PropertyChanged(this, new PropertyChangedEventArgs("username")); 
+            }
+        }
+        public CreateCustomerPageModel()
+        {
+            LoginCommand = new Command(
+                execute: async () =>
+                {
+                    var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<LoginPageModel>());
+                    Application.Current.MainPage = navpage;
+                });
             CreateCommand = new Command(
 
                 execute: async () =>
-                {
-                    var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<CreateCustomerPageModel>());
-                    Application.Current.MainPage = navpage;
-                }
-            );
-
-            LoginCommand = new Command(
-               execute: async () =>
                 {
                     Costumer costumer;
                     HttpClient httpClient;
@@ -97,30 +106,27 @@ namespace Fb.MC.Views
                     {
                         httpClient.BaseAddress = baseAddress;
 
-                        costumer = new Costumer() { Name = UserName, Password = Password };
-
-                        var response = await httpClient.PostAsJsonAsync<Costumer>("api/Customer/customerLogin", costumer);
-
-                        if(response.StatusCode == HttpStatusCode.OK)
+                        costumer = new Costumer() { Name = UserName, Password = Password, Email = Email };
+                        var res = await httpClient.PostAsJsonAsync<Costumer>("api/Customer/create", costumer);
+                        if (res.StatusCode != System.Net.HttpStatusCode.Created)
                         {
-                            string json = await response.Content.ReadAsStringAsync();
-                            costumer = JsonConvert.DeserializeObject<Costumer>(json);
-                        }
-                        else
-                        {
-                            Error = true;
                             return;
                         }
                     }
                     var navpage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainPageModel>(costumer));
                     Application.Current.MainPage = navpage;
                 },
-               canExecute: () =>
+                canExecute: () =>
                 {
                     if (UserName == "" ||
                         UserName == null ||
                         Password == "" ||
-                        Password == null)
+                        Password == null ||
+                        Email == "" ||
+                        Email == null ||
+                        RepeatPassword == "" ||
+                        RepeatPassword == null ||
+                        Password != RepeatPassword)
                     {
                         return false;
                     }

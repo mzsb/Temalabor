@@ -46,14 +46,14 @@ namespace Fb.MC.Views
             {
                 for (int i = 0; i < selectedK; i++)
                 {
-                    Room room = rooms.Find(r => r.Type.ToString().Equals("Flatbuilder.DTO.Kitchen"));
+                    Room room = rooms.Find(r => r.Type.ToString().Equals("Kitchen"));
                     rooms.Remove(room);
                     freeRooms.Add(room);
                 }
                 selectedK = value;
                 for (int i = 0; i < selectedK; i++)
                 {
-                    Room room = freeRooms.Find(r => r.Type.ToString().Equals("Flatbuilder.DTO.Kitchen"));
+                    Room room = freeRooms.Find(r => r.Type.ToString().Equals("Kitchen"));
                     rooms.Add(room);
                     freeRooms.Remove(room);
                 }
@@ -86,14 +86,14 @@ namespace Fb.MC.Views
             {
                 for (int i = 0; i < selectedS; i++)
                 {
-                    Room room = rooms.Find(r => r.Type.ToString().Equals("Flatbuilder.DTO.Shower"));
+                    Room room = rooms.Find(r => r.Type.ToString().Equals("Shower"));
                     rooms.Remove(room);
                     freeRooms.Add(room);
                 }
                 selectedS = value;
                 for (int i = 0; i < selectedS; i++)
                 {
-                    Room room = freeRooms.Find(r => r.Type.ToString().Equals("Flatbuilder.DTO.Shower"));
+                    Room room = freeRooms.Find(r => r.Type.ToString().Equals("Shower"));
                     rooms.Add(room);
                     freeRooms.Remove(room);
                 }
@@ -126,14 +126,14 @@ namespace Fb.MC.Views
             {
                 for (int i = 0; i < selectedB; i++)
                 {
-                    Room room = rooms.Find(r => r.Type.ToString().Equals("Flatbuilder.DTO.Bedroom"));
+                    Room room = rooms.Find(r => r.Type.ToString().Equals("Bedroom"));
                     rooms.Remove(room);
                     freeRooms.Add(room);
                 }
                 selectedB = value;
                 for (int i = 0; i < selectedB; i++)
                 {
-                    Room room = freeRooms.Find(r => r.Type.ToString().Equals("Flatbuilder.DTO.Bedroom"));
+                    Room room = freeRooms.Find(r => r.Type.ToString().Equals("Bedroom"));
                     rooms.Add(room);
                     freeRooms.Remove(room);
                 }
@@ -346,11 +346,11 @@ namespace Fb.MC.Views
 
                 foreach (Room r in freeRooms)
                 {
-                    if (r.Type.ToString().Equals("Flatbuilder.DTO.Kitchen"))
+                    if (r.Type.ToString().Equals("Kitchen"))
                         Kpicker.Add(++k);
-                    if (r.Type.ToString().Equals("Flatbuilder.DTO.Shower"))
+                    if (r.Type.ToString().Equals("Shower"))
                         Spicker.Add(++s);
-                    if (r.Type.ToString().Equals("Flatbuilder.DTO.Bedroom"))
+                    if (r.Type.ToString().Equals("Bedroom"))
                         Bpicker.Add(++b);
                 }
                 RaisePropertyChanged("Spicker");

@@ -2,28 +2,28 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Fb.MC.Views"
-             x:Class="Fb.MC.Views.LoginPage">
+             x:Class="Fb.MC.Views.CreateCustomerPage">
     <StackLayout
             HorizontalOptions="Center" 
             VerticalOptions="Center">
-       
+
         <StackLayout
              Spacing="10"
              Padding="20">
             <StackLayout.BindingContext>
-                <local:LoginPageModel/>
+                <local:CreateCustomerPageModel/>
             </StackLayout.BindingContext>
 
             <Button 
-                Text="Create account" 
+                Text="Login page" 
                 HorizontalOptions="Center" 
                 VerticalOptions="Center"  
                 IsVisible="True"
                 IsEnabled="True"
-                Command="{Binding CreateCommand}"/>
+                Command="{Binding LoginCommand}"/>
 
             <Label 
-                Text="Please log in!"  
+                Text="Create an account"  
                 HorizontalOptions="Center" 
                 VerticalOptions="Center"
                 FontSize="Large"
@@ -36,6 +36,13 @@
                 Placeholder="Name"
                 Text="{Binding UserName}"/>
             <Editor 
+                HeightRequest="50"
+                AutoSize="TextChanges"
+                HorizontalOptions="Center" 
+                VerticalOptions="Center"  
+                Placeholder="Email"
+                Text="{Binding Email}"/>
+            <Editor 
                 AutoSize="TextChanges"
                 HeightRequest="50"
                 HorizontalOptions="Center" 
@@ -43,20 +50,21 @@
                 Placeholder="Password"
                 IsEnabled="True"
                 Text="{Binding Password}"/>
-            <Label
-                Text="Wrong username or password"
+            <Editor 
+                AutoSize="TextChanges"
+                HeightRequest="50"
                 HorizontalOptions="Center" 
-                VerticalOptions="Center"
-                FontSize="Large"
-                TextColor="Red"
-                IsVisible="{Binding Error}"/>
+                VerticalOptions="Center"  
+                Placeholder="Repeat Password"
+                IsEnabled="True"
+                Text="{Binding RepeatPassword}"/>
             <Button 
-                Text="Log in" 
+                Text="Create" 
                 HorizontalOptions="Center" 
                 VerticalOptions="Center"  
                 IsVisible="True"
                 IsEnabled="False"
-                Command="{Binding LoginCommand}"/>
+                Command="{Binding CreateCommand}"/>
         </StackLayout>
     </StackLayout>
 </ContentPage>
