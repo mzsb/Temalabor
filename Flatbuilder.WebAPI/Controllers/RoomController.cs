@@ -47,7 +47,7 @@ namespace Flatbuilder.WebAPI.Controllers
         }
 
         [HttpPost("create/kitchen")]
-        public async Task<IActionResult> CreateKitchenAsync(Kitchen k) 
+        public async Task<IActionResult> CreateKitchenAsync([FromBody] Kitchen k) 
         {
             var mapped = _mapper.Map<DAL.Entities.Kitchen>(k);
 
@@ -57,7 +57,7 @@ namespace Flatbuilder.WebAPI.Controllers
         }
 
         [HttpPost("create/bedroom")]
-        public async Task<IActionResult> CreateBedroomAsync(Bedroom br)
+        public async Task<IActionResult> CreateBedroomAsync([FromBody] Bedroom br)
         {
             var mapped = _mapper.Map<DAL.Entities.Bedroom>(br);
 
@@ -67,7 +67,7 @@ namespace Flatbuilder.WebAPI.Controllers
         }
 
         [HttpPost("create/shower")]
-        public async Task<IActionResult> CreateShowerAsync([FromBody] Room s)
+        public async Task<IActionResult> CreateShowerAsync([FromBody] Shower s)
         {
             var mapped = _mapper.Map<DAL.Entities.Shower>(s);
 
