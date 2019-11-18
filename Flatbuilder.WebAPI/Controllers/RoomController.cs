@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Flatbuilder.DAL.Interfaces;
 using AutoMapper;
 using Flatbuilder.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Flatbuilder.WebAPI.Controllers
 {
@@ -45,8 +46,9 @@ namespace Flatbuilder.WebAPI.Controllers
             var mapped = _mapper.Map<Room>(res);
             return Ok(mapped);
         }
-
+        
         [HttpPost("create/kitchen")]
+        [Authorize]
         public async Task<IActionResult> CreateKitchenAsync([FromBody] Kitchen k) 
         {
             var mapped = _mapper.Map<DAL.Entities.Kitchen>(k);
@@ -57,6 +59,7 @@ namespace Flatbuilder.WebAPI.Controllers
         }
 
         [HttpPost("create/bedroom")]
+        [Authorize]
         public async Task<IActionResult> CreateBedroomAsync([FromBody] Bedroom br)
         {
             var mapped = _mapper.Map<DAL.Entities.Bedroom>(br);
@@ -67,6 +70,7 @@ namespace Flatbuilder.WebAPI.Controllers
         }
 
         [HttpPost("create/shower")]
+        [Authorize]
         public async Task<IActionResult> CreateShowerAsync([FromBody] Shower s)
         {
             var mapped = _mapper.Map<DAL.Entities.Shower>(s);
@@ -77,6 +81,7 @@ namespace Flatbuilder.WebAPI.Controllers
         }
 
         [HttpPut("update/{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateRoomAsync([FromRoute] int id,[FromBody] Room item)
         {
             var mapped = _mapper.Map<DAL.Entities.Room>(item);
@@ -90,6 +95,7 @@ namespace Flatbuilder.WebAPI.Controllers
         }
 
         [HttpDelete("delete/{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteRoomAsync(int id)
         {
             var deleted = await _roomService.GetRoomByIdAsync(id);

@@ -16,10 +16,18 @@
                 HorizontalOptions="Center" 
                 FontSize="Large">
             </Label>
-            <Button
+            <StackLayout
+                HorizontalOptions="Fill"
+                Orientation="Horizontal">
+                <Button
                 Text="Create Order"
-                HorizontalOptions="End"
+                HorizontalOptions="Start"
                 Command="{Binding CreateOrderCommand}"/>
+                <Button
+                Text="Log out"
+                HorizontalOptions="EndAndExpand"
+                Command="{Binding LogoutCommand}"/>
+            </StackLayout>
             <Label
                 Text="Active Orders:"
                 FontAttributes="Bold"

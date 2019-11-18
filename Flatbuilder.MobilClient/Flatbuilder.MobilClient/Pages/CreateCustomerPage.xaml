@@ -42,8 +42,8 @@
                 VerticalOptions="Center"  
                 Placeholder="Email"
                 Text="{Binding Email}"/>
-            <Editor 
-                AutoSize="TextChanges"
+            <Entry 
+                IsPassword="True"
                 HeightRequest="50"
                 HorizontalOptions="Center" 
                 VerticalOptions="Center"  

@@ -35,13 +35,14 @@
                 VerticalOptions="Center"  
                 Placeholder="Name"
                 Text="{Binding UserName}"/>
-            <Editor 
-                AutoSize="TextChanges"
+            <Entry 
+                
                 HeightRequest="50"
                 HorizontalOptions="Center" 
                 VerticalOptions="Center"  
                 Placeholder="Password"
                 IsEnabled="True"
+                IsPassword="True"
                 Text="{Binding Password}"/>
             <Label
                 Text="Wrong username or password"

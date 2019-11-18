@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Flatbuilder.DAL.Entities.Authentication;
@@ -9,6 +12,8 @@ using Flatbuilder.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Flatbuilder.WebAPI.Controllers
 {
@@ -20,16 +25,19 @@ namespace Flatbuilder.WebAPI.Controllers
         IMapper _mapper;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IConfiguration _configuration;
 
         public CostumerController(ICostumerManager roomService,
                                   IMapper mapper,
                                   SignInManager<ApplicationUser> signInManager,
-                                  UserManager<ApplicationUser> userManager)
+                                  UserManager<ApplicationUser> userManager,
+                                  IConfiguration configuration)
         {
             _costumerService = roomService;
             _mapper = mapper;
             _signInManager = signInManager;
             _userManager = userManager;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -60,7 +68,8 @@ namespace Flatbuilder.WebAPI.Controllers
 
                 if (result.Succeeded)
                 {
-                    return Ok(user.Id);
+                    var res = await GenerateJwtToken(user);
+                    return Ok(res);
                 }
                 else
                 {
@@ -173,6 +182,30 @@ namespace Flatbuilder.WebAPI.Controllers
             await _costumerService.DeletCostumerAsync(deleted);
 
             return Ok("Successful delete");
+        }
+
+        private async Task<object> GenerateJwtToken(IdentityUser user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtExpireDays"]));
+
+            var token = new JwtSecurityToken(
+                _configuration["JwtIssuer"],
+                _configuration["JwtIssuer"],
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

@@ -45,6 +45,7 @@ namespace Fb.MC.Views
 
         public ICommand CreateOrderCommand { get; }
         public ICommand DetailsCommand { get; }
+        public ICommand LogoutCommand { get; }
 
         public MainPageModel()
         {
@@ -54,6 +55,11 @@ namespace Fb.MC.Views
                 await CoreMethods.PushPageModel<NewOrderPageModel>(User);
             }
             );
+            LogoutCommand = new Command(
+                execute: async () =>
+                {
+                    (Application.Current).MainPage = new NavigationPage(new LoginPage());                    
+                });
             DetailsCommand = new Command(
             execute: async (object param) =>
             {

@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Fb.MC.Behaviorss
 {
-    class ListViewNoSelectionBehavior : Behavior<ListView>
+    public class ListViewNoSelectionBehavior : Behavior<ListView>
     {
         protected override void OnAttachedTo(ListView bindable)
         {
