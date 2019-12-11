@@ -52,6 +52,7 @@ namespace Flatbuilder.DAL.Managers
                 return null;
 
             update.Price = r.Price;
+            update.Description = r.Description;            
 
             await SaveChangesAsync();
 

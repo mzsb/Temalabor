@@ -29,9 +29,6 @@ namespace Flatbuilder.DAL.Managers
                 .AsNoTracking()
                 .ToListAsync();
             return orders;
-
-            //var kitchens = _context.Rooms.OfType<Kitchen>().ToList();
-            //var zuhayn = _context.Rooms.OfType<Shower>().ToList();
         }
 
         public async Task<List<Order>> GetOrdersByNameAsync(string name)
@@ -182,11 +179,6 @@ namespace Flatbuilder.DAL.Managers
             });
 
             await _context.SaveChangesAsync();
-            //var foglalasi_szobak = order.Rooms.Select(r => r.Id).ToList();
-
-            //var marFoglalva = await _context.Orders.AnyAsync(o => o.Rooms.Any(r => foglalasi_szobak.Contains(r.Id)));
-            //var roomId = 7;
-            //var szabad = _context.Rooms.Where(r => r.Id == roomId && r.OrderRooms.Any(or => or.Order.EndDate < DateTime.Now ))
         }
 
         public async Task SaveChangesAsync()

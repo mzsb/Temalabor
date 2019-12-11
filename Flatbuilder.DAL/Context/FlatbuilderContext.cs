@@ -9,16 +9,11 @@ using System.Text;
 
 namespace Flatbuilder.DAL.Context
 {
-    //tools-->nuget package manager-->package manager console
-
-    //add-migration <nev> ha valamit valtoztatni kell a strukturan
-    //update-database hogy a jelenlegit lehuzzatok a sajat gepetekre
-    //View-->Sql Server Object Explorer ebben kell lenni valahol ha sikerult az update
     public class FlatbuilderContext : IdentityDbContext<ApplicationUser>
     {
-        
+
         public DbSet<Room> Rooms { get; set; }
-        public DbSet<Costumer> Costumers { get; set; }        
+        public DbSet<Costumer> Costumers { get; set; }
         public DbSet<Order> Orders { get; set; }
 
         //many-to-many
@@ -36,9 +31,6 @@ namespace Flatbuilder.DAL.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            //Tulajdonkeppen egyik sem kene ide feltetlenul csak a constraintek ha vannak, mert felvettuk az Id-ket meg ilyneket es az EFCore 
-            //konvencio alapjan is ki tudna talalni de jobb biztosra menni
 
             //configuring inheritance
             modelBuilder.Entity<Bedroom>().HasBaseType<Room>();
@@ -73,6 +65,6 @@ namespace Flatbuilder.DAL.Context
             modelBuilder.Entity<OrderRoom>()
                 .HasOne<Room>(or => or.Room)
                 .WithMany(r => r.OrderRooms);
-        }        
+        }
     }
 }

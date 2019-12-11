@@ -93,28 +93,7 @@ namespace Flatbuilder.WebAPI.Controllers
         public async Task<IActionResult> CreateOrderAsync([FromBody]Order o)
         {
 
-            var mappedorder = _mapper.Map<DAL.Entities.Order>(o);
-
-            //o = new Order
-            //{
-            //    Costumer = new Costumer { Name = "Name" },
-            //    StartDate = DateTime.Now.AddDays(-1),
-            //    EndDate = DateTime.Now.AddDays(1),
-            //    Rooms = new List<Room>
-            //    {
-            //       new Kitchen(){ Price = 100  },
-            //       new Bedroom(){ Price = 100  },
-            //       new Shower(){ Price = 100  }
-            //    }
-
-            //};
-
-            //var mappedorder = new DAL.Entities.Order
-            //{
-            //    Costumer = new DAL.Entities.Costumer { Name = o.Costumer.Name },
-            //    StartDate = o.StartDate,
-            //    EndDate = o.EndDate
-            //};
+            var mappedorder = _mapper.Map<DAL.Entities.Order>(o);            
 
             List<DAL.Entities.Room> mappedrooms = new List<DAL.Entities.Room>();
             mappedrooms = _mapper.Map<List <DAL.Entities.Room>>(o.Rooms);

@@ -124,6 +124,7 @@ namespace Fb.MC.Views
                         Password == null ||
                         Email == "" ||
                         Email == null ||
+                        Email.Contains("@") ||
                         RepeatPassword == "" ||
                         RepeatPassword == null ||
                         Password != RepeatPassword)

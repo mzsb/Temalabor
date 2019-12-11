@@ -64,15 +64,6 @@
                             x:Name="vc">
                             <StackLayout
                                 Padding="0,5,0,5">
-                                <!--<StackLayout
-                                    BindingContext="{Binding x:Reference vc}"
-                                    Orientation="Horizontal">
-                                    <Label
-                                        Text="Type: "
-                                        FontAttributes="Bold"/>
-                                    <Label
-                                        Text="{Binding Type}"/>
-                                </StackLayout>-->
                                 <Label 
                                     Text="{Binding Type, StringFormat='Type: {0}'}"/>
                                 <StackLayout
